@@ -28,12 +28,12 @@ namespace City_Saver
 
         //private ScrollingBackground myBackground;
         //City_Saver.ScrollingBackground myBackground = new City_Saver.ScrollingBackground();
-        //private ScrollingBackground myBackGround;
+        private ScrollingBackground myBackGround;
         Texture2D background;
         Vector2 backgroundOrigin;
-        //Vector2 screenPosition, screenOrigin, sizeOfTexture;
-        //int screenheight;
-        //int screenwidth;
+        Vector2 screenPosition, screenOrigin, sizeOfTexture;
+        int screenheight;
+        int screenwidth;
 
 
         GamePadState currentControl;//the controller state of the player
@@ -69,17 +69,17 @@ namespace City_Saver
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             testSprite = Content.Load<Texture2D>("SpriteAnimation//Hero(Exile)AttackAnimation");
-            ///*****Used for scrolling background - Start****/
-            //myBackGround = new ScrollingBackground();
+            /*****Used for scrolling background - Start****/
+            myBackGround = new ScrollingBackground();
             
             background = Content.Load<Texture2D>("Background//TestSpriteBackGround");
-            //myBackGround.Load(GraphicsDevice, background);
-            //screenheight = graphics.GraphicsDevice.Viewport.Height;
-            //screenwidth = graphics.GraphicsDevice.Viewport.Width;
-            //backgroundOrigin = new Vector2(background.Width / 2, 0);
-            //screenPosition = new Vector2 (screenwidth /2, screenheight /2);
-            //sizeOfTexture = new Vector2(0, background.Height);
-            ///*****Used for scrolling background - End*****/
+            myBackGround.Load(GraphicsDevice, background);
+            screenheight = graphics.GraphicsDevice.Viewport.Height;
+            screenwidth = graphics.GraphicsDevice.Viewport.Width;
+            backgroundOrigin = new Vector2(background.Width / 2, 0);
+            screenPosition = new Vector2(screenwidth / 2, screenheight / 2);
+            sizeOfTexture = new Vector2(0, background.Height);
+            /*****Used for scrolling background - End*****/
 
         }
 
@@ -116,9 +116,9 @@ namespace City_Saver
             // TODO: Add your update logic here
             //IsMouseVisible = true;
 
-            //float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            //myBackGround.Update(elapsed * 100);
+            myBackGround.Update(elapsed * 100);
             
 
             base.Update(gameTime);
@@ -131,8 +131,8 @@ namespace City_Saver
 
             spriteBatch.Begin();
             //spriteBatch.Draw(testSprite, playerPosition,Color.White);     //Keep this one around for testing, it works, no bells and whistles
-            spriteBatch.Draw(background, backgroundOrigin, null, Color.White, 0f, new Vector2(0, 0), 9f, SpriteEffects.None, 0f);
-            //myBackGround.Draw(spriteBatch);
+            //spriteBatch.Draw(background, backgroundOrigin, null, Color.White, 0f, new Vector2(0, 0), 9f, SpriteEffects.None, 0f);
+            myBackGround.Draw(spriteBatch);
             spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(0,0), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
             
             spriteBatch.End();
