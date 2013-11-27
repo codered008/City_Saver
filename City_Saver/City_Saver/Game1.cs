@@ -40,7 +40,7 @@ namespace City_Saver
         //The Telekinesis abilities of the player
         //TK_Shield barrier = new TK_Shield();      //Implemented further down
         //TK_Shot shot = new TK_Shot();             //Implemented further down
-        Vector2 playerPosition = new Vector2(0, 0);     //Give player a starting position; can be changed easily
+        Vector2 playerPosition = new Vector2(400, 400);     //Give player a starting position; can be changed easily
         float latMovementSpeed = 2.5f;             //Multiplication factor for movement speed
         
         ObjectClasses.Player player = new ObjectClasses.Player();
@@ -74,8 +74,8 @@ namespace City_Saver
             
             background = Content.Load<Texture2D>("Background//TestSpriteBackGround");
             myBackGround.Load(GraphicsDevice, background);
-            screenheight = graphics.GraphicsDevice.Viewport.Height;
-            screenwidth = graphics.GraphicsDevice.Viewport.Width;
+            screenheight = GraphicsDevice.PresentationParameters.BackBufferHeight;//graphics.GraphicsDevice.Viewport.Height;
+            screenwidth = GraphicsDevice.PresentationParameters.BackBufferWidth;//graphics.GraphicsDevice.Viewport.Width;
             backgroundOrigin = new Vector2(background.Width / 2, 0);
             screenPosition = new Vector2(screenwidth / 2, screenheight / 2);
             sizeOfTexture = new Vector2(0, background.Height);
@@ -132,12 +132,19 @@ namespace City_Saver
             spriteBatch.Begin();
             //spriteBatch.Draw(testSprite, playerPosition,Color.White);     //Keep this one around for testing, it works, no bells and whistles
             //spriteBatch.Draw(background, backgroundOrigin, null, Color.White, 0f, new Vector2(0, 0), 9f, SpriteEffects.None, 0f);
-            myBackGround.Draw(spriteBatch);
-            spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(0,0), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
+            //myBackGround.Draw(spriteBatch);
+            DrawScenery();
+            spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
             
             spriteBatch.End();
             
             base.Draw(gameTime);
+        }
+
+        private void DrawScenery()
+        {
+            Rectangle screenRect = new Rectangle(0,0, screenwidth, screenheight);
+            spriteBatch.Draw(background, screenRect, Color.White);
         }
     }
 }
