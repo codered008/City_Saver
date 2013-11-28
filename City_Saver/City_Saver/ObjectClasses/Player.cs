@@ -15,6 +15,9 @@ namespace City_Saver.ObjectClasses
     class Player: ObjectClasses.People, Animation.walkAnimation
     {
         GamePadState currentControl;//the controller state of the player
+        Animation.Animation walkAnimation;
+        Animation.Animation attackAnimation;
+        Animation.Animation backWalkAnimation;
         //The Telekinesis abilities of the player
         //TK_Shield barrier = new TK_Shield();      //Implemented further down
         //TK_Shot shot = new TK_Shot();             //Implemented further down
@@ -31,9 +34,14 @@ namespace City_Saver.ObjectClasses
             
         }
 
-        /*
-         * Maybe add a LoadContent method here?
-         */
+        public Animation.Animation getWalkingAni()
+        {
+            return walkAnimation;
+        }
+        public void setWalkingAnimation(ContentManager content, String spriteName, int frameNum, Vector2 playerPos)
+        {
+            walkAnimation = new Animation.Animation(content, spriteName, 0.90f, frameNum, playerPos);
+        }
 
         public void Update(GameTime gameTime)
         {
