@@ -32,8 +32,9 @@ namespace City_Saver
         Texture2D background;
         Vector2 backgroundOrigin;
         Vector2 screenPosition, screenOrigin, sizeOfTexture;
-        int screenheight;
-        int screenwidth;
+        int screenheight;   //Variable for the height of the viewport
+        int screenwidth;    //Variable for the width of the viewport
+        int newRoom = 0;       //Flag to draw a new room once the character has moved into it
 
 
         GamePadState currentControl;//the controller state of the player
@@ -103,12 +104,27 @@ namespace City_Saver
                 if (currentControl.ThumbSticks.Left.X != 0)
                 {
                     playerPosition.X += (currentControl.ThumbSticks.Left.X) * latMovementSpeed;
+                    if (playerPosition.X < 0 + testSprite.Width)
+                    {
+                        playerPosition.X = testSprite.Width;
+                    }
+
                 }
 
                 /**********Handles Up and Down Vertical movement */
                 if (currentControl.ThumbSticks.Left.Y != 0)
                 {
                     playerPosition.Y -= (currentControl.ThumbSticks.Left.Y) * latMovementSpeed;
+
+                    if (playerPosition.Y < 0 + testSprite.Height)
+                    {
+                        playerPosition.Y = testSprite.Height * 2;
+                    }
+
+                    if (playerPosition.Y > screenheight - testSprite.Height)
+                    {
+                        playerPosition.Y = screenheight - testSprite.Height;
+                    }
                 }
             }
             player.Update(gameTime);
@@ -134,6 +150,19 @@ namespace City_Saver
             //spriteBatch.Draw(background, backgroundOrigin, null, Color.White, 0f, new Vector2(0, 0), 9f, SpriteEffects.None, 0f);
             //myBackGround.Draw(spriteBatch);
             DrawScenery();
+
+            //If the player moves to the right side of the screen, reset the character's X position to the left side of the screen
+            if (playerPosition.X > graphics.GraphicsDevice.Viewport.Width)
+            {
+                playerPosition.X = 0 + testSprite.Width;       //Reset player's X position to the left side of the screen.
+                newRoom ++;                 //Increment newRoom flag to allow for color change
+                if (newRoom == 4)           //Can make this any number we desire
+                {
+                    newRoom = 0;            //Reset room color change as needed
+                }
+
+            }
+
             spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
             
             spriteBatch.End();
@@ -144,7 +173,34 @@ namespace City_Saver
         private void DrawScenery()
         {
             Rectangle screenRect = new Rectangle(0,0, screenwidth, screenheight);
-            spriteBatch.Draw(background, screenRect, Color.White);
+            //if (newRoom == 0)
+            //{
+            //     spriteBatch.Draw(background, screenRect, Color.White);
+            //}
+            switch (newRoom)
+            {
+                case 0:
+                    {
+                        spriteBatch.Draw(background, screenRect, Color.White);
+                        break;
+                    }
+                case 1:
+                    {
+                        spriteBatch.Draw(background, screenRect, Color.Yellow);
+                        break;
+                    }
+                case 2:
+                    {
+                        spriteBatch.Draw(background, screenRect, Color.Purple);
+                        break;
+                    }
+                case 3:
+                    {
+                        spriteBatch.Draw(background, screenRect, Color.Green);
+                        break;
+                    }
+
+            }
         }
     }
 }
