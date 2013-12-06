@@ -23,7 +23,6 @@ namespace City_Saver
         //Variables used for setting up the character sprite
         Texture2D testSprite;
         Vector2 spriteOrigin;
-
         //Variables needed for creating the scrolling background
 
         //private ScrollingBackground myBackground;
@@ -152,10 +151,10 @@ namespace City_Saver
                 {
                     playerPosition.Y -= (currentControl.ThumbSticks.Left.Y) * latMovementSpeed;
                     //Keeps the sprite on the screen
-                    if (playerPosition.Y <= 0)
+                    if (playerPosition.Y <= 100 )
                     {
                         //playerPosition.Y = testSprite.Height * 2;
-                        playerPosition.Y = 0;//resets the Y value to zero to avoid going off screen
+                        playerPosition.Y = 100;//resets the Y value to zero to avoid going off screen
                     }
                     if (playerPosition.Y > graphics.GraphicsDevice.Viewport.Height)
                     {
@@ -201,7 +200,6 @@ namespace City_Saver
             //    }
 
             //}
-
             spriteBatch.Draw(enemy1, new Vector2(200, 200), Color.White);
 
            // spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
