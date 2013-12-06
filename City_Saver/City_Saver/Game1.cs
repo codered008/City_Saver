@@ -49,6 +49,14 @@ namespace City_Saver
         
         ObjectClasses.Player player = new ObjectClasses.Player();
 
+
+        //*****************Textures for enemies***********//
+        Texture2D enemy1;
+        Texture2D enemy2;
+        Texture2D enemy_ship;
+        Texture2D securityrobot;
+        Texture2D wallturret;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -89,6 +97,15 @@ namespace City_Saver
             screenPosition = new Vector2(screenwidth / 2, screenheight / 2);
             sizeOfTexture = new Vector2(0, background1.Height);
             /*****Used for scrolling background - End*****/
+
+            //****Enemy Sprites****//
+            enemy1 = Content.Load<Texture2D>("Sprites//Enemy//enemy1");
+            enemy2 = Content.Load<Texture2D>("Sprites//Enemy//enemy2");
+            enemy_ship = Content.Load<Texture2D>("Sprites//Enemy//enemy_ship");
+            securityrobot = Content.Load<Texture2D>("Sprites//Enemy//securityrobot");
+            wallturret = Content.Load<Texture2D>("Sprites//Enemy//wallturret");
+
+
 
         }
 
@@ -174,6 +191,8 @@ namespace City_Saver
                 }
 
             }
+
+            spriteBatch.Draw(enemy1, new Vector2(200, 200), Color.White);
 
            // spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
             player.getWalkingAni().Draw(spriteBatch);
