@@ -122,7 +122,7 @@ namespace City_Saver
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
             currentControl = GamePad.GetState(PlayerIndex.One);
-            player.getWalkingAni();
+            //player.getWalkingAni();
 
             if (currentControl.IsConnected)
             {
@@ -130,10 +130,19 @@ namespace City_Saver
                 if (currentControl.ThumbSticks.Left.X != 0)
                 {
                     playerPosition.X += (currentControl.ThumbSticks.Left.X) * latMovementSpeed;
-                    if (playerPosition.X < 0 + testSprite.Width)
+                    //Reset the player's location when they try to go off screen
+                    if (playerPosition.X < 0)
                     {
-                        playerPosition.X = testSprite.Width;
+                        //Sprite stays on screen
+                        playerPosition.X = 0;
+
                     }
+                    if (playerPosition.X > graphics.GraphicsDevice.Viewport.Width)
+                    {
+                        playerPosition.X = 0;       //Reset player's X position to the left side of the screen.
+                    }
+                    //sets the player sprite's new position
+                    player.getWalkingAni().setPosition(playerPosition);
                     player.getWalkingAni();
 
                 }
@@ -142,16 +151,17 @@ namespace City_Saver
                 if (currentControl.ThumbSticks.Left.Y != 0)
                 {
                     playerPosition.Y -= (currentControl.ThumbSticks.Left.Y) * latMovementSpeed;
-
-                    if (playerPosition.Y < 0 + testSprite.Height)
+                    //Keeps the sprite on the screen
+                    if (playerPosition.Y <= 0)
                     {
-                        playerPosition.Y = testSprite.Height * 2;
+                        //playerPosition.Y = testSprite.Height * 2;
+                        playerPosition.Y = 0;//resets the Y value to zero to avoid going off screen
                     }
-
-                    if (playerPosition.Y > screenheight - testSprite.Height)
+                    if (playerPosition.Y > graphics.GraphicsDevice.Viewport.Height)
                     {
-                        playerPosition.Y = screenheight - testSprite.Height;
+                        playerPosition.Y = graphics.GraphicsDevice.Viewport.Height;//sets Y to the furthest height it can go
                     }
+                    player.getWalkingAni().setPosition(playerPosition);
                     player.getWalkingAni();
 
                 }
@@ -180,17 +190,17 @@ namespace City_Saver
             //myBackGround.Draw(spriteBatch);
             DrawScenery();
 
-            //If the player moves to the right side of the screen, reset the character's X position to the left side of the screen
-            if (playerPosition.X > graphics.GraphicsDevice.Viewport.Width)
-            {
-                playerPosition.X = 0 + testSprite.Width;       //Reset player's X position to the left side of the screen.
-                newRoom ++;                 //Increment newRoom flag to allow for color change
-                if (newRoom == 4)           //Can make this any number we desire
-                {
-                    newRoom = 0;            //Reset room color change as needed
-                }
+            ////If the player moves to the right side of the screen, reset the character's X position to the left side of the screen
+            //if (playerPosition.X > graphics.GraphicsDevice.Viewport.Width)
+            //{
+            //    playerPosition.X = 0;       //Reset player's X position to the left side of the screen.
+            //    newRoom ++;                 //Increment newRoom flag to allow for color change
+            //    if (newRoom == 4)           //Can make this any number we desire
+            //    {
+            //        newRoom = 0;            //Reset room color change as needed
+            //    }
 
-            }
+            //}
 
             spriteBatch.Draw(enemy1, new Vector2(200, 200), Color.White);
 

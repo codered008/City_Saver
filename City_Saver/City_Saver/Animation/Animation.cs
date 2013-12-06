@@ -48,6 +48,25 @@ namespace City_Saver.Animation
             reset = true;
         }
 
+        public int getFrameWidth()
+        {
+            //returns the width of the sprite in order to move it
+            return frameWidth;
+        }
+
+        public int getFrameHeight()
+        {
+            //returns the height of the sprite to move it
+            return frameHeight;
+        }
+
+        //Changes the position of the sprite
+        public void setPosition(Vector2 pos)
+        {
+            position = pos;
+        }
+
+
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
