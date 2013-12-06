@@ -29,7 +29,10 @@ namespace City_Saver
         //private ScrollingBackground myBackground;
         //City_Saver.ScrollingBackground myBackground = new City_Saver.ScrollingBackground();
         private ScrollingBackground myBackGround;
-        Texture2D background;
+        Texture2D background1;
+        Texture2D background2;
+        Texture2D background3;
+        Texture2D background4;
         Vector2 backgroundOrigin;
         Vector2 screenPosition, screenOrigin, sizeOfTexture;
         int screenheight;   //Variable for the height of the viewport
@@ -73,13 +76,16 @@ namespace City_Saver
             /*****Used for scrolling background - Start****/
             myBackGround = new ScrollingBackground();
             
-            background = Content.Load<Texture2D>("Background//TestSpriteBackGround");
-            myBackGround.Load(GraphicsDevice, background);
+            background1 = Content.Load<Texture2D>("Background//TestSpriteBackGround");
+            background2 = Content.Load<Texture2D>("Background//Concrete_slate");
+            background3 = Content.Load<Texture2D>("Background//jade_slate");
+            background4 = Content.Load<Texture2D>("Background//marble_slate");
+            myBackGround.Load(GraphicsDevice, background1);
             screenheight = GraphicsDevice.PresentationParameters.BackBufferHeight;//graphics.GraphicsDevice.Viewport.Height;
             screenwidth = GraphicsDevice.PresentationParameters.BackBufferWidth;//graphics.GraphicsDevice.Viewport.Width;
-            backgroundOrigin = new Vector2(background.Width / 2, 0);
+            backgroundOrigin = new Vector2(background1.Width / 2, 0);
             screenPosition = new Vector2(screenwidth / 2, screenheight / 2);
-            sizeOfTexture = new Vector2(0, background.Height);
+            sizeOfTexture = new Vector2(0, background1.Height);
             /*****Used for scrolling background - End*****/
 
         }
@@ -181,22 +187,22 @@ namespace City_Saver
             {
                 case 0:
                     {
-                        spriteBatch.Draw(background, screenRect, Color.White);
+                        spriteBatch.Draw(background1, screenRect, Color.White);
                         break;
                     }
                 case 1:
                     {
-                        spriteBatch.Draw(background, screenRect, Color.Yellow);
+                        spriteBatch.Draw(background2, screenRect, Color.Yellow);
                         break;
                     }
                 case 2:
                     {
-                        spriteBatch.Draw(background, screenRect, Color.Purple);
+                        spriteBatch.Draw(background3, screenRect, Color.Purple);
                         break;
                     }
                 case 3:
                     {
-                        spriteBatch.Draw(background, screenRect, Color.Green);
+                        spriteBatch.Draw(background4, screenRect, Color.Green);
                         break;
                     }
 
