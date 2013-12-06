@@ -18,7 +18,7 @@ namespace City_Saver
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        
+        //Animation.Animation player_walkingSprite;
 
         //Variables used for setting up the character sprite
         Texture2D testSprite;
@@ -73,6 +73,8 @@ namespace City_Saver
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             testSprite = Content.Load<Texture2D>("SpriteAnimation//Hero(Exile)AttackAnimation");
+            String player_walking = "SpriteAnimation//Hero(Exile)WalkingAnimation";
+            player.setWalkingAnimation(Content, player_walking, 5, playerPosition);
             /*****Used for scrolling background - Start****/
             myBackGround = new ScrollingBackground();
             
@@ -103,6 +105,7 @@ namespace City_Saver
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
             currentControl = GamePad.GetState(PlayerIndex.One);
+            player.getWalkingAni();
 
             if (currentControl.IsConnected)
             {
@@ -114,6 +117,7 @@ namespace City_Saver
                     {
                         playerPosition.X = testSprite.Width;
                     }
+                    player.getWalkingAni();
 
                 }
 
@@ -131,6 +135,8 @@ namespace City_Saver
                     {
                         playerPosition.Y = screenheight - testSprite.Height;
                     }
+                    player.getWalkingAni();
+
                 }
             }
             player.Update(gameTime);
@@ -169,8 +175,8 @@ namespace City_Saver
 
             }
 
-            spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
-            
+           // spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
+            player.getWalkingAni().Draw(spriteBatch);
             spriteBatch.End();
             
             base.Draw(gameTime);
