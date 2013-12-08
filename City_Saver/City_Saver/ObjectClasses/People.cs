@@ -8,7 +8,7 @@ namespace City_Saver.ObjectClasses
     class People
     {
         
-        private int health;//the HP of the object 
+        int health;//the HP of the object 
         private int abilityPower;//the MP of the object
         private bool hasWeapon;
       //private int weaponType;

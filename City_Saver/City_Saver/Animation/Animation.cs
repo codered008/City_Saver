@@ -83,13 +83,15 @@ namespace City_Saver.Animation
                     if (reset)
                     {
                         currentFrame = 0;
-                        elapsed = 0;
+
                     }
+                    
                 }
                 else
                 {
                     currentFrame++;
                 }
+                elapsed = 0;
             }
         }
 

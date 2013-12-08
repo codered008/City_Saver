@@ -19,9 +19,9 @@ namespace City_Saver.ObjectClasses
         Animation.Animation attackAnimation;
         Animation.Animation backWalkAnimation;
         //The Telekinesis abilities of the player
-        //TK_Shield barrier = new TK_Shield();      //Implemented further down
-        //TK_Shot shot = new TK_Shot();             //Implemented further down
-        Vector2 playerPosition = new Vector2(0, 0);     //Give player a starting position; can be changed easily
+        TK_Shield barrier = new TK_Shield();      //Implemented further down
+        TK_Shot shot = new TK_Shot();             //Implemented further down
+       // Vector2 playerPosition;     //Give player a starting position; can be changed easily
         float latMovementSpeed = 0.95f;             //Multiplication factor for movement speed
 
         /********Variables for pausing the game*********/
@@ -31,7 +31,28 @@ namespace City_Saver.ObjectClasses
 
         public Player()
         {
-            
+            Health = 100;
+            Magic = 50;
+        }
+
+        public int getHealth()
+        {
+            return Health;
+        }
+
+        public int getMagic()
+        {
+            return Magic;
+        }
+
+        public TK_Shot getShot()
+        {
+            return shot;
+        }
+
+        public TK_Shield getShield()
+        {
+            return barrier;
         }
 
         public Animation.Animation getWalkingAni()
@@ -40,89 +61,29 @@ namespace City_Saver.ObjectClasses
         }
         public void setWalkingAnimation(ContentManager content, String spriteName, int frameNum, Vector2 playerPos)
         {
-            walkAnimation = new Animation.Animation(content, spriteName, 0.90f, frameNum, playerPos);
+            walkAnimation = new Animation.Animation(content, spriteName, 0.30f, frameNum, playerPos);
         }
 
         public void Update(GameTime gameTime)
         {
-            TK_Shot shot = new TK_Shot();
-            TK_Shield barrier = new TK_Shield();
+            
             //moves the player right-forward
             if (currentControl.IsConnected)
             {
                 /******Checking for user pause******/
                 checkForPauseKey(currentControl);
 
-                //if (currentControl.ThumbSticks.Left.X != 0)
-                //{
-                //    playerPosition.X += (currentControl.ThumbSticks.Left.X) * latMovementSpeed;
-                //}
 
-                ///**********Handles Up and Down Vertical movement */
-                //if (currentControl.ThumbSticks.Left.Y != 0)
-                //{
-                //    playerPosition.Y -= (currentControl.ThumbSticks.Left.Y) * latMovementSpeed;
-                //}
-
-
-                //if (currentControl.ThumbSticks.Left.X == 1.0f)
-                //{
-                //    playerPosition.X += (currentControl.ThumbSticks.Left.X * latMovementSpeed);
-                //}
-                ////moves the player left-backwards
-                //else if (currentControl.ThumbSticks.Left.X == 1.0f)
-                //{
-                //    playerPosition.X -= (currentControl.ThumbSticks.Left.X * latMovementSpeed);
-                //}
-
-                /**********Handles Left and Right Horizontal movement */
-                playerPosition.X += (currentControl.ThumbSticks.Left.X * latMovementSpeed);
-                
-
-                /**********Handles Up and Down Vertical movement */
-                playerPosition.Y += (currentControl.ThumbSticks.Left.Y * latMovementSpeed);
-
-                /*
-                 * The vertical movement of the player
-                 * HERE
-                 */
-
-                //if (currentControl.ThumbSticks.Left == )
-                //{
-                    
-                //}
-
-
-                /*
-                 * The diagonal movement of the player
-                 * HERE
-                 */
-
-                /*
-                 * The telekinesis ability activation by the player
-                 * LT = TK Shot
-                 * RT = TK Shield
-                 */
-                //Activate the TK Shot
-                if (currentControl.Triggers.Left == 1.0f)
-                {
-                    shot.playAnimation();
-                }
-                else
-                {
-                    shot.endAnimation();
-                }
-
-                //Activates the TK Shield
-                if (currentControl.Triggers.Right == 1.0f)
-                {
-                    barrier.playAnimation();
-                }
-                else
-                {
-                    barrier.stopAnimation();
-                }
-
+            }
+            //if the player has fired a shot, then subtract the cost of the attack from MP
+            if (shot.getAnimationStatus())
+            {
+                Magic -= shot.getCost();
+            }
+            //Decreases the MP as long as the barrier is activated
+            if (barrier.getAnimationStatus())
+            {
+                Magic -= barrier.MPcost;
             }
         }
 

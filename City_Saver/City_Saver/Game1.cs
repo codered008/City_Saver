@@ -80,16 +80,28 @@ namespace City_Saver
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             testSprite = Content.Load<Texture2D>("SpriteAnimation//Hero(Exile)AttackAnimation");
-            String player_walking = "SpriteAnimation//Hero(Exile)WalkingAnimation";
+
+            String player_walking = "SpriteAnimation//HeroForwardWalk";
+            String player_stationary = "SpriteAnimation//StationaryHero";
+            String player_back_walk = "SpriteAnimation//HeroBackWalk";
+            String player_attack_melee = "SpriteAnimation//";
+
+
             player.setWalkingAnimation(Content, player_walking, 5, playerPosition);
+
+            /*****Used for animating the attacks******/
+            String telek_shot = "";
+            String telek_shield = "";
+            //  TK_animation = new Animation.Animation(Content, tk_asset, 0.30f, ,playerPosition);
+
             /*****Used for scrolling background - Start****/
             myBackGround = new ScrollingBackground();
-            
             background1 = Content.Load<Texture2D>("Background//TestSpriteBackGround");
             background2 = Content.Load<Texture2D>("Background//Concrete_slate");
             background3 = Content.Load<Texture2D>("Background//jade_slate");
             background4 = Content.Load<Texture2D>("Background//marble_slate");
             myBackGround.Load(GraphicsDevice, background1);
+
             screenheight = GraphicsDevice.PresentationParameters.BackBufferHeight;//graphics.GraphicsDevice.Viewport.Height;
             screenwidth = GraphicsDevice.PresentationParameters.BackBufferWidth;//graphics.GraphicsDevice.Viewport.Width;
             backgroundOrigin = new Vector2(background1.Width / 2, 0);
@@ -121,8 +133,6 @@ namespace City_Saver
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
             currentControl = GamePad.GetState(PlayerIndex.One);
-            //player.getWalkingAni();
-
             if (currentControl.IsConnected)
             {
                 /**********Handles Left and Right Horizontal movement */
@@ -142,8 +152,6 @@ namespace City_Saver
                     }
                     //sets the player sprite's new position
                     player.getWalkingAni().setPosition(playerPosition);
-                    player.getWalkingAni();
-
                 }
 
                 /**********Handles Up and Down Vertical movement */
@@ -161,11 +169,37 @@ namespace City_Saver
                         playerPosition.Y = graphics.GraphicsDevice.Viewport.Height;//sets Y to the furthest height it can go
                     }
                     player.getWalkingAni().setPosition(playerPosition);
-                    player.getWalkingAni();
 
                 }
+
+                /*
+                 * The telekinesis ability activation by the player
+                 * LT = TK Shot
+                 * RT = TK Shield
+                 */
+                //Activate the TK Shot
+                if (currentControl.Triggers.Left == 1.0f && (player.getMagic() >= 5))
+                {
+                    player.getShot().playAnimation();
+                }
+
+                if((player.getShot().getPosition().X > graphics.GraphicsDevice.Viewport.Width) ) //|| hits an enemy)
+                {
+                    player.getShot().endAnimation();
+                }
+
+                //Activates the TK Shield
+                if (currentControl.Triggers.Right == 1.0f)
+                {
+                    barrier.playAnimation();
+                    player.getShield().playAnimation();
+                }
+                else
+                {
+                    barrier.stopAnimation();
+                }
             }
-            player.Update(gameTime);
+            player.getWalkingAni().playAnim(gameTime); ;
 
             // TODO: Add your update logic here
             //IsMouseVisible = true;
@@ -200,6 +234,7 @@ namespace City_Saver
             //    }
 
             //}
+            
             spriteBatch.Draw(enemy1, new Vector2(200, 200), Color.White);
 
            // spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!

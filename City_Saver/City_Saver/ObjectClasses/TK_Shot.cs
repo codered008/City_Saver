@@ -19,6 +19,8 @@ namespace City_Saver.ObjectClasses
     {
         private int cost = 2;//the MP cost to use the attack
         private bool shotAnimation = false;//enable shot animation
+        private Animation.Animation TK_animation;//the animation object for the telekinesis shot
+        private Vector2 position;//the player's current position
         public TK_Shot()
         {
             AttackDamage = 10;//the damage amount of the attack
@@ -41,6 +43,26 @@ namespace City_Saver.ObjectClasses
             shotAnimation = true;
         }
 
+        public void setAnimation(Animation.Animation ani)
+        {
+            TK_animation = ani;
+        }
+
+        public Animation.Animation getAnimation()
+        {
+            return TK_animation;
+        }
+        //Assigns the attack the player's current position
+        //Movement of attack will be horizontal only
+        public void setPosition(Vector2 playerPos)
+        {
+            position = playerPos;
+        }
+
+        public Vector2 getPosition()
+        {
+            return position;
+        }
         /*
          * ends the animation when the projectile hits an enemy
          * or goes off-screen
@@ -56,6 +78,7 @@ namespace City_Saver.ObjectClasses
                 //NO. Move into player class
             if (shotAnimation)
             {
+
             }
         }
 
