@@ -178,7 +178,7 @@ namespace City_Saver
                  * RT = TK Shield
                  */
                 //Activate the TK Shot
-                if (currentControl.Triggers.Left == 1.0f && (player.getMagic() >= 5))
+                if (currentControl.Triggers.Left == 1.0f && currentControl.Triggers.Right == 0 && (player.getMagic() >= 5))
                 {
                     player.getShot().playAnimation();
                 }
@@ -189,14 +189,13 @@ namespace City_Saver
                 }
 
                 //Activates the TK Shield
-                if (currentControl.Triggers.Right == 1.0f)
+                if (currentControl.Triggers.Right == 1.0f && currentControl.Triggers.Left == 0 && (player.getMagic() > 0))
                 {
-                    barrier.playAnimation();
                     player.getShield().playAnimation();
                 }
                 else
                 {
-                    barrier.stopAnimation();
+                    player.getShield().stopAnimation();
                 }
             }
             player.getWalkingAni().playAnim(gameTime); ;
