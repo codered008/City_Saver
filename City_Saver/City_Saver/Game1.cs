@@ -115,9 +115,7 @@ namespace City_Saver
             enemy_ship = Content.Load<Texture2D>("Sprites//Enemy//enemy_ship");
             securityrobot = Content.Load<Texture2D>("Sprites//Enemy//securityrobot");
             wallturret = Content.Load<Texture2D>("Sprites//Enemy//wallturret");
-
-
-
+            
         }
 
 
@@ -223,16 +221,16 @@ namespace City_Saver
             DrawScenery();
 
             ////If the player moves to the right side of the screen, reset the character's X position to the left side of the screen
-            //if (playerPosition.X > graphics.GraphicsDevice.Viewport.Width)
-            //{
-            //    playerPosition.X = 0;       //Reset player's X position to the left side of the screen.
-            //    newRoom ++;                 //Increment newRoom flag to allow for color change
-            //    if (newRoom == 4)           //Can make this any number we desire
-            //    {
-            //        newRoom = 0;            //Reset room color change as needed
-            //    }
+            if (playerPosition.X > graphics.GraphicsDevice.Viewport.Width - 15)
+            {
+                playerPosition.X = 50;       //Reset player's X position to the left side of the screen.
+                newRoom++;                 //Increment newRoom flag to allow for color change
+                if (newRoom == 4)           //Can make this any number we desire
+                {
+                    newRoom = 0;            //Reset room color change as needed
+                }
 
-            //}
+            }
             
             spriteBatch.Draw(enemy1, new Vector2(200, 200), Color.White);
 

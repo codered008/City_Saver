@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Animation\Animation.cs" />
     <Compile Include="Animation\attackAnimation.cs" />
+    <Compile Include="Animation\EnemyAni.cs" />
     <Compile Include="Animation\SpriteManager.cs" />
     <Compile Include="Animation\walkAnimation.cs" />
     <Compile Include="ObjectClasses\People.cs" />
