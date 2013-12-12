@@ -60,6 +60,10 @@ namespace City_Saver.Animation
             return frameHeight;
         }
 
+        public Vector2 getPosition()
+        {
+            return position;
+        }
         //Changes the position of the sprite
         public void setPosition(Vector2 pos)
         {

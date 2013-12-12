@@ -85,7 +85,7 @@ namespace City_Saver.ObjectClasses
             //if the player has fired a shot, then subtract the cost of the attack from MP
             if (shot.getAnimationStatus())
             {
-                Magic -= shot.getCost();
+                Magic = Magic - shot.getCost();
             }
             //Decreases the MP as long as the barrier is activated
             if (barrier.getAnimationStatus())

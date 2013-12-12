@@ -24,9 +24,11 @@ namespace City_Saver
         //Texture2D TK_shot_texture;
         Texture2D testSprite;
         Vector2 spriteOrigin;
-
+        //The tools to create the string representation of the HP & MP
         SpriteFont romanFont;
         Vector2 hpPos;
+
+
         //Variables needed for creating the scrolling background
 
         //private ScrollingBackground myBackground;
@@ -102,7 +104,7 @@ namespace City_Saver
             String telek_shot = "SpriteAnimation\\TKShot";
             String telek_shield = "";
 
-            TKShot.setAnimation(Content, telek_shot, 1, playerPosition);
+            TKShot.setAnimation(Content, telek_shot, 1, player.getWalkingAni().getPosition());
             player.setShot(TKShot);
 
             /*****Used for scrolling background - Start****/
@@ -190,7 +192,7 @@ namespace City_Saver
                 //Activate the TK Shot
                 if (currentControl.Triggers.Left == 1.0f && currentControl.Triggers.Right == 0 && (player.getMagic() >= 5))
                 {
-                    player.getShot().setPosition(playerPosition);//gives the shot the player's current position
+                    player.getShot().setPosition(player.getWalkingAni().getPosition());//gives the shot the player's current position
                     player.getShot().playAnimation();
                 }
 
@@ -220,6 +222,7 @@ namespace City_Saver
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             myBackGround.Update(elapsed * 100);
+            player.getShot().Update(gameTime);
             
 
             base.Update(gameTime);
@@ -250,11 +253,12 @@ namespace City_Saver
 
             if(player.getShot().getAnimationStatus())
             {
+                //Console.WriteLine(player.getMagic());
+                Console.WriteLine(player.getShot().getPosition());
                 player.getShot().getAnimation().Draw(spriteBatch);
             }
 
             spriteBatch.Draw(enemy1, new Vector2(200, 200), Color.White);
-
            // spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
             player.getWalkingAni().Draw(spriteBatch);
             spriteBatch.End();

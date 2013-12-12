@@ -72,7 +72,7 @@ namespace City_Saver.ObjectClasses
             shotAnimation = false;
         }
 
-        protected void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             //play animation here?
                 //NO. Move into player class
@@ -80,6 +80,7 @@ namespace City_Saver.ObjectClasses
             if (shotAnimation)
             {
                 position.X += 2;
+                TK_animation.setPosition(position);
             }
         }
 
