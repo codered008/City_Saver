@@ -25,7 +25,8 @@ namespace City_Saver.ObjectClasses
 
        // Vector2 playerPosition;     //Give player a starting position; can be changed easily
         float latMovementSpeed = 0.95f;             //Multiplication factor for movement speed
-
+        float countDuration = 1f;//every 2 seconds
+        float currentTime = 0;
         bool playATKAnimation = false;
 
 
@@ -49,6 +50,7 @@ namespace City_Saver.ObjectClasses
         {
             Magic = Magic - shot.getCost();
         }
+
         public bool getAttackAniStatus()
         {
             return playATKAnimation;
@@ -77,6 +79,10 @@ namespace City_Saver.ObjectClasses
             return barrier;
         }
 
+        public void setShield(TK_Shield shield)
+        {
+            barrier = shield;
+        }
         public Animation.Animation getWalkingAni()
         {
             return walkAnimation;
@@ -99,12 +105,19 @@ namespace City_Saver.ObjectClasses
         public void Update(GameTime gameTime)
         {
             getShot().Update(gameTime);
+            getShield().Update(gameTime);
+
             //if the player has fired a shot, then subtract the cost of the attack from MP
-            
             //Decreases the MP as long as the barrier is activated
             if (barrier.getAnimationStatus())
             {
-                Magic -= barrier.MPcost;
+                currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                //Every 2 seconds will deplete the player's MP from using the ability
+                if (currentTime >= countDuration)
+                {
+                    Magic -= barrier.MPcost;
+                    currentTime -= countDuration;//use up the time
+                }
             }
         }
 

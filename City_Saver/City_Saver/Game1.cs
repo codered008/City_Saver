@@ -59,6 +59,7 @@ namespace City_Saver
         /**The creation of the player object & other objects that will be used by the player**/
         ObjectClasses.Player player = new ObjectClasses.Player();
         ObjectClasses.TK_Shot TKShot = new ObjectClasses.TK_Shot();
+        ObjectClasses.TK_Shield TKBarrier = new ObjectClasses.TK_Shield();
 
         //*****************Textures for enemies***********//
         Texture2D enemy1;
@@ -113,7 +114,9 @@ namespace City_Saver
             String telek_shield = "SpriteAnimation\\Barrier";
 
             TKShot.setAnimation(Content, telek_shot, 1, player.getWalkingAni().getPosition());
+            TKBarrier.setBarrierAnimation(Content, telek_shield, 1, player.getWalkingAni().getPosition());
             player.setShot(TKShot);
+            player.setShield(TKBarrier);
 
             /*****Used for scrolling background - Start****/
             myBackGround = new ScrollingBackground();
@@ -122,6 +125,7 @@ namespace City_Saver
             background3 = Content.Load<Texture2D>("Background//jade_slate");
             background4 = Content.Load<Texture2D>("Background//marble_slate");
             myBackGround.Load(GraphicsDevice, background1);
+
             pausedMenu = Content.Load<Texture2D>("Sprites\\PauseMenu");
 
             screenheight = GraphicsDevice.PresentationParameters.BackBufferHeight;//graphics.GraphicsDevice.Viewport.Height;
@@ -206,6 +210,7 @@ namespace City_Saver
                      * LT = TK Shot
                      * RT = TK Shield
                      */
+                                         //*****The Telekinesis Abilities*******//
                     //Activate the TK Shot
                     if (currentControl.Triggers.Left == 1.0f && currentControl.Triggers.Right == 0 && (player.getMagic() >= 5))
                     {
@@ -226,13 +231,16 @@ namespace City_Saver
                     //Activates the TK Shield
                     if (currentControl.Triggers.Right == 1.0f && currentControl.Triggers.Left == 0 && (player.getMagic() > 0))
                     {
+                        player.getShield().setPosition(player.getWalkingAni().getPosition());
                         player.getShield().playAnimation();
+
                     }
                     else
                     {
                         player.getShield().stopAnimation();
                     }
 
+                    //*******The Melee Ability*******//
                     //The player's melee attack functionality
                     if (currentControl.IsButtonDown(Buttons.A))
                     {
@@ -298,6 +306,17 @@ namespace City_Saver
 
             spriteBatch.Draw(enemy1, new Vector2(200, 200), Color.White);
             // spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
+            
+            //the animation for the TK shield
+            if (!player.getShield().getAnimationStatus())
+            {
+                player.getWalkingAni().Draw(spriteBatch);
+            }
+            else
+            {
+                player.getShield().getShieldAnimation().Draw(spriteBatch);
+            }
+            //The animation for Melee Attack
             if (!player.getAttackAniStatus())
             {
                 player.getWalkingAni().Draw(spriteBatch);
@@ -305,6 +324,7 @@ namespace City_Saver
             else
             {
                 player.getMeleeAnimation().Draw(spriteBatch);
+                //Collide method call here
             }
             spriteBatch.End();
 
