@@ -38,6 +38,7 @@ namespace City_Saver
         Texture2D background2;
         Texture2D background3;
         Texture2D background4;
+        Texture2D pausedMenu;
 
         Vector2 backgroundOrigin;
         Vector2 screenPosition, screenOrigin, sizeOfTexture;
@@ -52,7 +53,7 @@ namespace City_Saver
         //TK_Shot shot = new TK_Shot();             //Implemented further down
         Vector2 playerPosition = new Vector2(400, 400);     //Give player a starting position; can be changed easily
         float latMovementSpeed = 2.5f;             //Multiplication factor for movement speed
-        
+
         /**The creation of the player object & other objects that will be used by the player**/
         ObjectClasses.Player player = new ObjectClasses.Player();
         ObjectClasses.TK_Shot TKShot = new ObjectClasses.TK_Shot();
@@ -64,17 +65,21 @@ namespace City_Saver
         Texture2D securityrobot;
         Texture2D wallturret;
 
+        /********Variables for pausing the game*********/
+        bool gamePaused = false;
+        bool pauseKeyDown = false;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
- 
+
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            spriteOrigin = new Vector2(100,100);
+            spriteOrigin = new Vector2(100, 100);
             //backgroundOrigin.X = graphics.GraphicsDevice.Viewport.Height / 2;
             //backgroundOrigin.Y = graphics.GraphicsDevice.Viewport.Width / 2;
             backgroundOrigin.X = 0;
@@ -82,7 +87,7 @@ namespace City_Saver
 
             //loads the font for representing statuses
             romanFont = Content.Load<SpriteFont>("Times New Roman");
-            hpPos = new Vector2(50,50);
+            hpPos = new Vector2(50, 50);
             base.Initialize();
         }
 
@@ -92,10 +97,10 @@ namespace City_Saver
             spriteBatch = new SpriteBatch(GraphicsDevice);
             testSprite = Content.Load<Texture2D>("SpriteAnimation//Hero(Exile)AttackAnimation");
 
-            String player_walking = "SpriteAnimation//HeroForwardWalk";
-            String player_stationary = "SpriteAnimation//StationaryHero";
-            String player_back_walk = "SpriteAnimation//HeroBackWalk";
-            String player_attack_melee = "SpriteAnimation//";
+            String player_walking = "SpriteAnimation\\HeroForwardWalk";
+            String player_stationary = "SpriteAnimation\\StationaryHero";
+            String player_back_walk = "SpriteAnimation\\HeroBackWalk";
+            String player_attack_melee = "SpriteAnimation\\";
 
             //Set the player's sprites
             player.setWalkingAnimation(Content, player_walking, 5, playerPosition);
@@ -114,6 +119,7 @@ namespace City_Saver
             background3 = Content.Load<Texture2D>("Background//jade_slate");
             background4 = Content.Load<Texture2D>("Background//marble_slate");
             myBackGround.Load(GraphicsDevice, background1);
+            pausedMenu = Content.Load<Texture2D>("Sprites\\PauseMenu");
 
             screenheight = GraphicsDevice.PresentationParameters.BackBufferHeight;//graphics.GraphicsDevice.Viewport.Height;
             screenwidth = GraphicsDevice.PresentationParameters.BackBufferWidth;//graphics.GraphicsDevice.Viewport.Width;
@@ -129,7 +135,7 @@ namespace City_Saver
             enemy_ship = Content.Load<Texture2D>("Sprites//Enemy//enemy_ship");
             securityrobot = Content.Load<Texture2D>("Sprites//Enemy//securityrobot");
             wallturret = Content.Load<Texture2D>("Sprites//Enemy//wallturret");
-            
+
         }
 
 
@@ -147,83 +153,93 @@ namespace City_Saver
             currentControl = GamePad.GetState(PlayerIndex.One);
             if (currentControl.IsConnected)
             {
-                /**********Handles Left and Right Horizontal movement */
-                if (currentControl.ThumbSticks.Left.X != 0)
+                /******Checking for user pause******/
+                checkForPauseKey(currentControl);
+                //Freeze the current state of the game
+                if (!gamePaused)
                 {
-                    playerPosition.X += (currentControl.ThumbSticks.Left.X) * latMovementSpeed;
-                    //Reset the player's location when they try to go off screen
-                    if (playerPosition.X < 0)
+
+
+                    /**********Handles Left and Right Horizontal movement */
+                    if (currentControl.ThumbSticks.Left.X != 0)
                     {
-                        //Sprite stays on screen
-                        playerPosition.X = 0;
+                        playerPosition.X += (currentControl.ThumbSticks.Left.X) * latMovementSpeed;
+                        //Reset the player's location when they try to go off screen
+                        if (playerPosition.X < 0)
+                        {
+                            //Sprite stays on screen
+                            playerPosition.X = 0;
+
+                        }
+                        if (playerPosition.X > graphics.GraphicsDevice.Viewport.Width)
+                        {
+                            playerPosition.X = 0;       //Reset player's X position to the left side of the screen.
+                        }
+                        //sets the player sprite's new position
+                        player.getWalkingAni().setPosition(playerPosition);
+                    }
+
+                    /**********Handles Up and Down Vertical movement */
+                    if (currentControl.ThumbSticks.Left.Y != 0)
+                    {
+                        playerPosition.Y -= (currentControl.ThumbSticks.Left.Y) * latMovementSpeed;
+                        //Keeps the sprite on the screen
+                        if (playerPosition.Y <= 100)
+                        {
+                            //playerPosition.Y = testSprite.Height * 2;
+                            playerPosition.Y = 100;//resets the Y value to zero to avoid going off screen
+                        }
+                        if (playerPosition.Y > graphics.GraphicsDevice.Viewport.Height)
+                        {
+                            playerPosition.Y = graphics.GraphicsDevice.Viewport.Height;//sets Y to the furthest height it can go
+                        }
+                        player.getWalkingAni().setPosition(playerPosition);
 
                     }
-                    if (playerPosition.X > graphics.GraphicsDevice.Viewport.Width)
+
+                    /*
+                     * The telekinesis ability activation by the player
+                     * LT = TK Shot
+                     * RT = TK Shield
+                     */
+                    //Activate the TK Shot
+                    if (currentControl.Triggers.Left == 1.0f && currentControl.Triggers.Right == 0 && (player.getMagic() >= 5))
                     {
-                        playerPosition.X = 0;       //Reset player's X position to the left side of the screen.
-                    }
-                    //sets the player sprite's new position
-                    player.getWalkingAni().setPosition(playerPosition);
-                }
 
-                /**********Handles Up and Down Vertical movement */
-                if (currentControl.ThumbSticks.Left.Y != 0)
-                {
-                    playerPosition.Y -= (currentControl.ThumbSticks.Left.Y) * latMovementSpeed;
-                    //Keeps the sprite on the screen
-                    if (playerPosition.Y <= 100 )
+                        player.getShot().setPosition(player.getWalkingAni().getPosition());//gives the shot the player's current position
+                        player.getShot().playAnimation();
+                        player.shotCost();
+
+                    }
+
+                    //The TK shot is removed when image either hits an enemy or goes out of range
+                    if ((player.getShot().getPosition().X > graphics.GraphicsDevice.Viewport.Width)) //|| hits an enemy)
                     {
-                        //playerPosition.Y = testSprite.Height * 2;
-                        playerPosition.Y = 100;//resets the Y value to zero to avoid going off screen
+                        player.getShot().endAnimation();
                     }
-                    if (playerPosition.Y > graphics.GraphicsDevice.Viewport.Height)
+
+                    //Activates the TK Shield
+                    if (currentControl.Triggers.Right == 1.0f && currentControl.Triggers.Left == 0 && (player.getMagic() > 0))
                     {
-                        playerPosition.Y = graphics.GraphicsDevice.Viewport.Height;//sets Y to the furthest height it can go
+                        player.getShield().playAnimation();
                     }
-                    player.getWalkingAni().setPosition(playerPosition);
+                    else
+                    {
+                        player.getShield().stopAnimation();
+                    }
+
+
 
                 }
-
-                /*
-                 * The telekinesis ability activation by the player
-                 * LT = TK Shot
-                 * RT = TK Shield
-                 */
-                //Activate the TK Shot
-                if (currentControl.Triggers.Left == 1.0f && currentControl.Triggers.Right == 0 && (player.getMagic() >= 5))
-                {
-                    player.getShot().setPosition(player.getWalkingAni().getPosition());//gives the shot the player's current position
-                    player.getShot().playAnimation();
-                }
-
-                //The TK shot is removed when image either hits an enemy or goes out of range
-                if((player.getShot().getPosition().X > graphics.GraphicsDevice.Viewport.Width) ) //|| hits an enemy)
-                {
-                    player.getShot().endAnimation();
-                }
-
-                //Activates the TK Shield
-                if (currentControl.Triggers.Right == 1.0f && currentControl.Triggers.Left == 0 && (player.getMagic() > 0))
-                {
-                    player.getShield().playAnimation();
-                }
-                else
-                {
-                    player.getShield().stopAnimation();
-                }
-
-                
-                
+                player.getWalkingAni().playAnim(gameTime); ;
             }
-            player.getWalkingAni().playAnim(gameTime); ;
-
             //IsMouseVisible = true;
 
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             myBackGround.Update(elapsed * 100);
-            player.getShot().Update(gameTime);
-            
+            player.Update(gameTime);
+
 
             base.Update(gameTime);
         }
@@ -238,7 +254,7 @@ namespace City_Saver
             //spriteBatch.Draw(background, backgroundOrigin, null, Color.White, 0f, new Vector2(0, 0), 9f, SpriteEffects.None, 0f);
             //myBackGround.Draw(spriteBatch);
             DrawScenery();
-            spriteBatch.DrawString(romanFont, "Health:  " + player.getHealth()+"\nMagic:   " + player.getMagic(), hpPos, Color.Red);
+            spriteBatch.DrawString(romanFont, "Health:  " + player.getHealth() + "\nMagic:   " + player.getMagic(), hpPos, Color.Red);
             ////If the player moves to the right side of the screen, reset the character's X position to the left side of the screen
             if (playerPosition.X > graphics.GraphicsDevice.Viewport.Width - 15)
             {
@@ -251,7 +267,8 @@ namespace City_Saver
 
             }
 
-            if(player.getShot().getAnimationStatus())
+
+            if (player.getShot().getAnimationStatus())
             {
                 //Console.WriteLine(player.getMagic());
                 Console.WriteLine(player.getShot().getPosition());
@@ -259,20 +276,17 @@ namespace City_Saver
             }
 
             spriteBatch.Draw(enemy1, new Vector2(200, 200), Color.White);
-           // spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
+            // spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
             player.getWalkingAni().Draw(spriteBatch);
             spriteBatch.End();
-            
+
             base.Draw(gameTime);
         }
 
         private void DrawScenery()
         {
-            Rectangle screenRect = new Rectangle(0,0, screenwidth, screenheight);
-            //if (newRoom == 0)
-            //{
-            //     spriteBatch.Draw(background, screenRect, Color.White);
-            //}
+            Rectangle screenRect = new Rectangle(0, 0, screenwidth, screenheight);
+
             switch (newRoom)
             {
                 case 0:
@@ -295,8 +309,39 @@ namespace City_Saver
                         spriteBatch.Draw(background4, screenRect, Color.Green);
                         break;
                     }
-
             }
+            //Displays the pause menu
+            if (gamePaused)
+            {
+                spriteBatch.Draw(pausedMenu, screenRect, Color.White);
+            }
+        }
+        //Check for beginning of Pause
+        private void BeginPause(bool playerPause)
+        {
+            gamePaused = true;
+            //TODO: Pause any audio
+            //TODO: Pause any vibration
+        }
+
+        //Check for end of Pause
+        private void EndPause()
+        {
+            gamePaused = false;
+        }
+
+        private void checkForPauseKey(GamePadState gamePadState)
+        {
+            bool pauseKeyDownNow = (gamePadState.Buttons.Start == ButtonState.Pressed);
+
+            if (!pauseKeyDown && pauseKeyDownNow)
+            {
+                if (!gamePaused)
+                    BeginPause(true);
+                else
+                    EndPause();
+            }
+            pauseKeyDown = pauseKeyDownNow;
         }
     }
 }

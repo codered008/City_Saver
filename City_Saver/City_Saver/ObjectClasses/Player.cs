@@ -26,9 +26,7 @@ namespace City_Saver.ObjectClasses
        // Vector2 playerPosition;     //Give player a starting position; can be changed easily
         float latMovementSpeed = 0.95f;             //Multiplication factor for movement speed
 
-        /********Variables for pausing the game*********/
-        bool gamePaused = false;
-        bool pauseKeyDown = false;
+
 
 
         public Player()
@@ -47,6 +45,11 @@ namespace City_Saver.ObjectClasses
             return Magic;
         }
 
+        public void shotCost()
+        {
+            Magic = Magic - shot.getCost();
+        }
+         
         public TK_Shot getShot()
         {
             return shot;
@@ -77,16 +80,13 @@ namespace City_Saver.ObjectClasses
             //moves the player right-forward
             if (currentControl.IsConnected)
             {
-                /******Checking for user pause******/
-                checkForPauseKey(currentControl);
+                
 
 
             }
+            getShot().Update(gameTime);
             //if the player has fired a shot, then subtract the cost of the attack from MP
-            if (shot.getAnimationStatus())
-            {
-                Magic = Magic - shot.getCost();
-            }
+            
             //Decreases the MP as long as the barrier is activated
             if (barrier.getAnimationStatus())
             {
@@ -99,33 +99,9 @@ namespace City_Saver.ObjectClasses
             
         }
 
-        //Check for beginning of Pause
-        private void BeginPause(bool playerPause)
-        {
-            gamePaused = true;
-            //TODO: Pause any audio
-            //TODO: Pause any vibration
-        }
+        
 
-        //Check for end of Pause
-        private void EndPause()
-        {
-            gamePaused = false;
-        }
-
-        private void checkForPauseKey(GamePadState gamePadState)
-        {
-            bool pauseKeyDownNow = (gamePadState.Buttons.Start == ButtonState.Pressed);
-
-            if (!pauseKeyDown && pauseKeyDownNow)
-            {
-                if (!gamePaused)
-                    BeginPause(true);
-                else
-                    EndPause();
-            }
-            pauseKeyDown = pauseKeyDownNow;
-        }
+        
 
     }
 }
