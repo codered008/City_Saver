@@ -21,6 +21,7 @@ namespace City_Saver
         //Animation.Animation player_walkingSprite;
 
         //Variables used for setting up the character sprite
+        //Texture2D TK_shot_texture;
         Texture2D testSprite;
         Vector2 spriteOrigin;
         //Variables needed for creating the scrolling background
@@ -46,8 +47,9 @@ namespace City_Saver
         Vector2 playerPosition = new Vector2(400, 400);     //Give player a starting position; can be changed easily
         float latMovementSpeed = 2.5f;             //Multiplication factor for movement speed
         
+        /**The creation of the player object & other objects that will be used by the player**/
         ObjectClasses.Player player = new ObjectClasses.Player();
-
+        ObjectClasses.TK_Shot TKShot = new ObjectClasses.TK_Shot();
 
         //*****************Textures for enemies***********//
         Texture2D enemy1;
@@ -86,13 +88,14 @@ namespace City_Saver
             String player_back_walk = "SpriteAnimation//HeroBackWalk";
             String player_attack_melee = "SpriteAnimation//";
 
-
+            //Set the player's sprites
             player.setWalkingAnimation(Content, player_walking, 5, playerPosition);
 
-            /*****Used for animating the attacks******/
-            String telek_shot = "";
+            /*****Used for animating the TK attacks******/
+            String telek_shot = "SpriteAnimation\\TKShot";
             String telek_shield = "";
-            //  TK_animation = new Animation.Animation(Content, tk_asset, 0.30f, ,playerPosition);
+
+            TKShot.setAnimation(Content, telek_shot, 1, playerPosition);
 
             /*****Used for scrolling background - Start****/
             myBackGround = new ScrollingBackground();
@@ -105,6 +108,7 @@ namespace City_Saver
             screenheight = GraphicsDevice.PresentationParameters.BackBufferHeight;//graphics.GraphicsDevice.Viewport.Height;
             screenwidth = GraphicsDevice.PresentationParameters.BackBufferWidth;//graphics.GraphicsDevice.Viewport.Width;
             backgroundOrigin = new Vector2(background1.Width / 2, 0);
+
             screenPosition = new Vector2(screenwidth / 2, screenheight / 2);
             sizeOfTexture = new Vector2(0, background1.Height);
             /*****Used for scrolling background - End*****/
@@ -178,9 +182,11 @@ namespace City_Saver
                 //Activate the TK Shot
                 if (currentControl.Triggers.Left == 1.0f && currentControl.Triggers.Right == 0 && (player.getMagic() >= 5))
                 {
+                    player.getShot().setPosition(playerPosition);//gives the shot the player's current position
                     player.getShot().playAnimation();
                 }
 
+                //The TK shot is removed when image either hits an enemy or goes out of range
                 if((player.getShot().getPosition().X > graphics.GraphicsDevice.Viewport.Width) ) //|| hits an enemy)
                 {
                     player.getShot().endAnimation();
@@ -195,10 +201,12 @@ namespace City_Saver
                 {
                     player.getShield().stopAnimation();
                 }
+
+                
+                
             }
             player.getWalkingAni().playAnim(gameTime); ;
 
-            // TODO: Add your update logic here
             //IsMouseVisible = true;
 
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -231,7 +239,12 @@ namespace City_Saver
                 }
 
             }
-            
+
+            if(player.getShot().getAnimationStatus())
+            {
+                player.getShot().getAnimation().Draw(spriteBatch);
+            }
+
             spriteBatch.Draw(enemy1, new Vector2(200, 200), Color.White);
 
            // spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!

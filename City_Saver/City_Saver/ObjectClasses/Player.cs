@@ -18,9 +18,11 @@ namespace City_Saver.ObjectClasses
         Animation.Animation walkAnimation;
         Animation.Animation attackAnimation;
         Animation.Animation backWalkAnimation;
+
         //The Telekinesis abilities of the player
         TK_Shield barrier = new TK_Shield();      //Implemented further down
         TK_Shot shot = new TK_Shot();             //Implemented further down
+
        // Vector2 playerPosition;     //Give player a starting position; can be changed easily
         float latMovementSpeed = 0.95f;             //Multiplication factor for movement speed
 
@@ -49,7 +51,11 @@ namespace City_Saver.ObjectClasses
         {
             return shot;
         }
-
+        //assigns the player a Telekinesis Shot object
+        public void setShot(TK_Shot s)
+        {
+            shot = s;
+        }
         public TK_Shield getShield()
         {
             return barrier;
@@ -59,6 +65,7 @@ namespace City_Saver.ObjectClasses
         {
             return walkAnimation;
         }
+
         public void setWalkingAnimation(ContentManager content, String spriteName, int frameNum, Vector2 playerPos)
         {
             walkAnimation = new Animation.Animation(content, spriteName, 0.30f, frameNum, playerPos);

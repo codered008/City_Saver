@@ -43,9 +43,9 @@ namespace City_Saver.ObjectClasses
             shotAnimation = true;
         }
 
-        public void setAnimation(Animation.Animation ani)
+        public void setAnimation(ContentManager content, String spriteName, int frameNum, Vector2 playerPos)
         {
-            TK_animation = ani;
+            TK_animation = new Animation.Animation(content, spriteName, 0.3f, frameNum, playerPos);
         }
 
         public Animation.Animation getAnimation()
@@ -76,9 +76,10 @@ namespace City_Saver.ObjectClasses
         {
             //play animation here?
                 //NO. Move into player class
+            //When the player fires a TK shot, the attack moves to the right horizonatally only
             if (shotAnimation)
             {
-
+                position.X += 2;
             }
         }
 
