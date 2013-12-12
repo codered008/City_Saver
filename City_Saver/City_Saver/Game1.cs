@@ -24,6 +24,9 @@ namespace City_Saver
         //Texture2D TK_shot_texture;
         Texture2D testSprite;
         Vector2 spriteOrigin;
+
+        SpriteFont romanFont;
+        Vector2 hpPos;
         //Variables needed for creating the scrolling background
 
         //private ScrollingBackground myBackground;
@@ -33,6 +36,7 @@ namespace City_Saver
         Texture2D background2;
         Texture2D background3;
         Texture2D background4;
+
         Vector2 backgroundOrigin;
         Vector2 screenPosition, screenOrigin, sizeOfTexture;
         int screenheight;   //Variable for the height of the viewport
@@ -74,6 +78,9 @@ namespace City_Saver
             backgroundOrigin.X = 0;
             backgroundOrigin.Y = 0;
 
+            //loads the font for representing statuses
+            romanFont = Content.Load<SpriteFont>("Times New Roman");
+            hpPos = new Vector2(50,50);
             base.Initialize();
         }
 
@@ -96,6 +103,7 @@ namespace City_Saver
             String telek_shield = "";
 
             TKShot.setAnimation(Content, telek_shot, 1, playerPosition);
+            player.setShot(TKShot);
 
             /*****Used for scrolling background - Start****/
             myBackGround = new ScrollingBackground();
@@ -227,7 +235,7 @@ namespace City_Saver
             //spriteBatch.Draw(background, backgroundOrigin, null, Color.White, 0f, new Vector2(0, 0), 9f, SpriteEffects.None, 0f);
             //myBackGround.Draw(spriteBatch);
             DrawScenery();
-
+            spriteBatch.DrawString(romanFont, "Health:  " + player.getHealth()+"\nMagic:   " + player.getMagic(), hpPos, Color.Red);
             ////If the player moves to the right side of the screen, reset the character's X position to the left side of the screen
             if (playerPosition.X > graphics.GraphicsDevice.Viewport.Width - 15)
             {
