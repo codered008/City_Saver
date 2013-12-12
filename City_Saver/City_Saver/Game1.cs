@@ -246,7 +246,9 @@ namespace City_Saver
                     }
 
                 }
-                player.getWalkingAni().playAnim(gameTime); ;
+                
+                    player.getWalkingAni().playAnim(gameTime); ;
+                
             }
             //IsMouseVisible = true;
 
@@ -296,7 +298,14 @@ namespace City_Saver
 
             spriteBatch.Draw(enemy1, new Vector2(200, 200), Color.White);
             // spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
-            player.getWalkingAni().Draw(spriteBatch);
+            if (!player.getAttackAniStatus())
+            {
+                player.getWalkingAni().Draw(spriteBatch);
+            }
+            else
+            {
+                player.getMeleeAnimation().Draw(spriteBatch);
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);
