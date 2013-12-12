@@ -14,10 +14,10 @@ namespace City_Saver.ObjectClasses
 {
     class Player: ObjectClasses.People, Animation.walkAnimation
     {
-        GamePadState currentControl;//the controller state of the player
         Animation.Animation walkAnimation;
         Animation.Animation attackAnimation;
         Animation.Animation backWalkAnimation;
+
 
         //The Telekinesis abilities of the player
         TK_Shield barrier = new TK_Shield();      //Implemented further down
@@ -26,7 +26,7 @@ namespace City_Saver.ObjectClasses
        // Vector2 playerPosition;     //Give player a starting position; can be changed easily
         float latMovementSpeed = 0.95f;             //Multiplication factor for movement speed
 
-
+        bool playATKAnimation = false;
 
 
         public Player()
@@ -49,7 +49,20 @@ namespace City_Saver.ObjectClasses
         {
             Magic = Magic - shot.getCost();
         }
-         
+        public bool getAttackAniStatus()
+        {
+            return playATKAnimation;
+        }
+
+        public void playAttackAnimation()
+        {
+            playATKAnimation = true;
+        }
+
+        public void stopAttackAnimation()
+        {
+            playATKAnimation = false;
+        }
         public TK_Shot getShot()
         {
             return shot;
@@ -74,16 +87,17 @@ namespace City_Saver.ObjectClasses
             walkAnimation = new Animation.Animation(content, spriteName, 0.30f, frameNum, playerPos);
         }
 
+        public Animation.Animation getMeleeAnimation()
+        {
+            return attackAnimation;
+        }
+
+        public void setMeleeAnimation(ContentManager c, String sName, int frNum, Vector2 playerPos)
+        {
+            attackAnimation = new Animation.Animation(c, sName, 0.30f, frNum, playerPos); 
+        }
         public void Update(GameTime gameTime)
         {
-            
-            //moves the player right-forward
-            if (currentControl.IsConnected)
-            {
-                
-
-
-            }
             getShot().Update(gameTime);
             //if the player has fired a shot, then subtract the cost of the attack from MP
             

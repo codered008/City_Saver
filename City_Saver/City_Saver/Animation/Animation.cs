@@ -70,7 +70,15 @@ namespace City_Saver.Animation
             position = pos;
         }
 
+        public void setBounding()
+        {
+            sourceRect = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
+        }
 
+        public Rectangle getBounding()
+        {
+            return sourceRect;
+        }
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
@@ -78,7 +86,7 @@ namespace City_Saver.Animation
         public  void playAnim(GameTime gameTime)
         {
             elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            sourceRect = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
+            setBounding();
 
             if (elapsed >= frameTime)
             {

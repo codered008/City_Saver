@@ -37,11 +37,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpriteAnimation\Hero%28Exile%29AttackAnimation.png">
-      <Name>Hero%28Exile%29AttackAnimation</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="SpriteAnimation\Hero%28Exile%29BackWalkingAnimation.png">
       <Name>Hero%28Exile%29BackWalkingAnimation</Name>
       <Importer>TextureImporter</Importer>
@@ -154,6 +149,18 @@
   <ItemGroup>
     <Compile Include="Sprites\PauseMenu.png">
       <Name>PauseMenu</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteAnimation\Barrier.png">
+      <Name>Barrier</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="SpriteAnimation\MeleeSprite.png">
+      <Name>MeleeSprite</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

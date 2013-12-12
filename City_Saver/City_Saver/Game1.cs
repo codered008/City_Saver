@@ -48,10 +48,12 @@ namespace City_Saver
 
 
         GamePadState currentControl;//the controller state of the player
+        GamePadState prevControl;
         //The Telekinesis abilities of the player
         //TK_Shield barrier = new TK_Shield();      //Implemented further down
         //TK_Shot shot = new TK_Shot();             //Implemented further down
-        Vector2 playerPosition = new Vector2(400, 400);     //Give player a starting position; can be changed easily
+        Vector2 playerPosition = new Vector2(400, 500);     //Give player a starting position; can be changed easily
+        Vector2 enemyPosition;
         float latMovementSpeed = 2.5f;             //Multiplication factor for movement speed
 
         /**The creation of the player object & other objects that will be used by the player**/
@@ -95,19 +97,20 @@ namespace City_Saver
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            testSprite = Content.Load<Texture2D>("SpriteAnimation//Hero(Exile)AttackAnimation");
+            //testSprite = Content.Load<Texture2D>("SpriteAnimation//Hero(Exile)AttackAnimation");
 
             String player_walking = "SpriteAnimation\\HeroForwardWalk";
             String player_stationary = "SpriteAnimation\\StationaryHero";
             String player_back_walk = "SpriteAnimation\\HeroBackWalk";
-            String player_attack_melee = "SpriteAnimation\\";
+            String player_attack_melee = "SpriteAnimation\\MeleeSprite";
 
-            //Set the player's sprites
+            //Set the player's sprite animation
             player.setWalkingAnimation(Content, player_walking, 5, playerPosition);
+            player.setMeleeAnimation(Content, player_attack_melee, 1, playerPosition);
 
             /*****Used for animating the TK attacks******/
             String telek_shot = "SpriteAnimation\\TKShot";
-            String telek_shield = "";
+            String telek_shield = "SpriteAnimation\\Barrier";
 
             TKShot.setAnimation(Content, telek_shot, 1, player.getWalkingAni().getPosition());
             player.setShot(TKShot);
@@ -159,16 +162,17 @@ namespace City_Saver
                 if (!gamePaused)
                 {
 
-
+                    prevControl = currentControl;
                     /**********Handles Left and Right Horizontal movement */
                     if (currentControl.ThumbSticks.Left.X != 0)
                     {
                         playerPosition.X += (currentControl.ThumbSticks.Left.X) * latMovementSpeed;
                         //Reset the player's location when they try to go off screen
-                        if (playerPosition.X < 0)
+                        if (playerPosition.X < 100)
                         {
                             //Sprite stays on screen
-                            playerPosition.X = 0;
+                            playerPosition.X = 100;
+                            
 
                         }
                         if (playerPosition.X > graphics.GraphicsDevice.Viewport.Width)
@@ -184,10 +188,10 @@ namespace City_Saver
                     {
                         playerPosition.Y -= (currentControl.ThumbSticks.Left.Y) * latMovementSpeed;
                         //Keeps the sprite on the screen
-                        if (playerPosition.Y <= 100)
+                        if (playerPosition.Y <= (graphics.GraphicsDevice.Viewport.Height / 2) + 150)
                         {
                             //playerPosition.Y = testSprite.Height * 2;
-                            playerPosition.Y = 100;//resets the Y value to zero to avoid going off screen
+                            playerPosition.Y = (graphics.GraphicsDevice.Viewport.Height / 2) + 150;//resets the Y value to zero to avoid going off screen
                         }
                         if (playerPosition.Y > graphics.GraphicsDevice.Viewport.Height)
                         {
@@ -212,8 +216,9 @@ namespace City_Saver
 
                     }
 
-                    //The TK shot is removed when image either hits an enemy or goes out of range
-                    if ((player.getShot().getPosition().X > graphics.GraphicsDevice.Viewport.Width)) //|| hits an enemy)
+                    //Move to DRAW Method
+                    //The TK shot sprite is removed when image either hits an enemy or goes out of range
+                    if ((player.getShot().getPosition().X > graphics.GraphicsDevice.Viewport.Width)) //player.getShot().getAnimation().getBounding().Intersects()//hits an enemy)
                     {
                         player.getShot().endAnimation();
                     }
@@ -228,7 +233,17 @@ namespace City_Saver
                         player.getShield().stopAnimation();
                     }
 
-
+                    //The player's melee attack functionality
+                    if (currentControl.IsButtonDown(Buttons.A))
+                    {
+                        player.getMeleeAnimation().setPosition(player.getWalkingAni().getPosition());
+                        player.playAttackAnimation();
+                        player.getMeleeAnimation().playAnim(gameTime);
+                    }
+                    else
+                    {
+                        player.stopAttackAnimation();
+                    }
 
                 }
                 player.getWalkingAni().playAnim(gameTime); ;
@@ -255,7 +270,8 @@ namespace City_Saver
             //myBackGround.Draw(spriteBatch);
             DrawScenery();
             spriteBatch.DrawString(romanFont, "Health:  " + player.getHealth() + "\nMagic:   " + player.getMagic(), hpPos, Color.Red);
-            ////If the player moves to the right side of the screen, reset the character's X position to the left side of the screen
+
+            //If the player moves to the right side of the screen, reset the character's X position to the left side of the screen
             if (playerPosition.X > graphics.GraphicsDevice.Viewport.Width - 15)
             {
                 playerPosition.X = 50;       //Reset player's X position to the left side of the screen.
@@ -266,12 +282,15 @@ namespace City_Saver
                 }
 
             }
-
+            if (player.getAttackAniStatus())
+            {
+                player.getMeleeAnimation().Draw(spriteBatch);
+            }
 
             if (player.getShot().getAnimationStatus())
             {
                 //Console.WriteLine(player.getMagic());
-                Console.WriteLine(player.getShot().getPosition());
+                //Console.WriteLine(player.getShot().getPosition());
                 player.getShot().getAnimation().Draw(spriteBatch);
             }
 
