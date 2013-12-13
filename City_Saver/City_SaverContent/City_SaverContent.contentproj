@@ -89,13 +89,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Enemy\enemy1.png">
-      <Name>enemy1</Name>
+    <Compile Include="Sprites\Enemy\trooper.png">
+      <Name>trooper</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\Enemy\enemy2.png">
-      <Name>enemy2</Name>
+    <Compile Include="Sprites\Enemy\RoboSoldier.png">
+      <Name>RoboSoldier</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

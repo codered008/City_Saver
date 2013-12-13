@@ -64,11 +64,13 @@ namespace City_Saver
         ObjectClasses.TK_Shield TKBarrier = new ObjectClasses.TK_Shield();
 
         //*****************Textures for enemies***********//
-        Texture2D enemy1;
+        Texture2D trooper;
         Texture2D robo_soldier;
         Texture2D enemy_ship;
         Texture2D securityrobot;
         Texture2D wallturret;
+        Texture2D fireShooter;
+        Texture2D[] enemies;
 
         /********Variables for pausing the game*********/
         bool gamePaused = false;
@@ -140,11 +142,20 @@ namespace City_Saver
             /*****Used for scrolling background - End*****/
 
             //****Enemy Sprites****//
-            enemy1 = Content.Load<Texture2D>("Sprites//Enemy//enemy1");
-            robo_soldier = Content.Load<Texture2D>("Sprites//Enemy//enemy2");
-            enemy_ship = Content.Load<Texture2D>("Sprites//Enemy//enemy_ship");
+            trooper = Content.Load<Texture2D>("Sprites//Enemy//trooper");
+            robo_soldier = Content.Load<Texture2D>("Sprites//Enemy//RoboSoldier");
             securityrobot = Content.Load<Texture2D>("Sprites//Enemy//securityrobot");
             wallturret = Content.Load<Texture2D>("Sprites//Enemy//wallturret");
+            enemy_ship = Content.Load<Texture2D>("Sprites//Enemy//enemy_ship");
+            fireShooter = Content.Load<Texture2D>("Sprites//Enemy//FireShooter");
+            
+            //Array to hold the enemy content
+            enemies[0] = trooper;
+            enemies[1] = robo_soldier;
+            enemies[2] = securityrobot;
+            enemies[3] = wallturret;
+            enemies[4] = fireShooter;
+            enemies[5] = securityrobot;
 
         }
 
@@ -316,7 +327,7 @@ namespace City_Saver
                 player.getShot().getAnimation().Draw(spriteBatch);
             }
 
-            spriteBatch.Draw(enemy1, new Vector2(200, 200), Color.White);
+            spriteBatch.Draw(trooper, new Vector2(200, 200), Color.White);
             // spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
             
             //the animation for the TK shield

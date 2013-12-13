@@ -77,6 +77,10 @@
     <Compile Include="Animation\EnemyAni.cs" />
     <Compile Include="Animation\SpriteManager.cs" />
     <Compile Include="Animation\walkAnimation.cs" />
+    <Compile Include="ObjectClasses\Wallturret.cs" />
+    <Compile Include="ObjectClasses\SecurityRobot.cs" />
+    <Compile Include="ObjectClasses\Trooper.cs" />
+    <Compile Include="ObjectClasses\RoboSoldier.cs" />
     <Compile Include="ObjectClasses\FireShooter.cs" />
     <Compile Include="ObjectClasses\People.cs" />
     <Compile Include="ObjectClasses\Player.cs" />
