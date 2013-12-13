@@ -36,6 +36,26 @@ namespace City_Saver.ObjectClasses
             Health -= damage;
         }
 
+        public void setPosition(Vector2 pos)
+        {
+            enemyPosition = pos;
+        }
+
+        public Vector2 getPosition()
+        {
+            return enemyPosition;
+        }
+
+        public void setAnimation(ContentManager c, String asset, int frameNum, Vector2 position)
+        {
+            roboSoldierAni = new Animation.Animation(c, asset, 0.3f, 1, position);
+        }
+
+        public Animation.Animation getAnimation()
+        {
+            return roboSoldierAni;
+        }
+
         public void Update(GameTime gameTime)
         {
             if (Health <= 0)
@@ -45,7 +65,12 @@ namespace City_Saver.ObjectClasses
 
             //Enemy should move towards the left
             currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //enemyPosition.X -= 0.5f * currentTime;      //Need to test this
+            if (currentTime >= timeDuration)
+            {
+                enemyPosition.X -= 0.5f * currentTime;      //Need to test this
+                roboSoldierAni.setPosition(enemyPosition);
+                currentTime -= timeDuration;
+            }
            
         }
     }
