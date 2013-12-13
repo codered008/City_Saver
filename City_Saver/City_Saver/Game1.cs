@@ -62,10 +62,11 @@ namespace City_Saver
         ObjectClasses.Player player = new ObjectClasses.Player();
         ObjectClasses.TK_Shot TKShot = new ObjectClasses.TK_Shot();
         ObjectClasses.TK_Shield TKBarrier = new ObjectClasses.TK_Shield();
+        
 
         //*****************Variables for enemies***********//
         Texture2D trooper;
-        String robo_soldier;
+        Texture2D robo_soldier;
         Texture2D enemy_ship;
         Texture2D securityrobot;
         Texture2D wallturret;
@@ -76,7 +77,7 @@ namespace City_Saver
         List<ObjectClasses.FireShooter> FireshooterList = new List<ObjectClasses.FireShooter>();
 
         ObjectClasses.RoboSoldier roboS = new ObjectClasses.RoboSoldier();
-        ObjectClasses.RoboSoldier[] RoboSoldierList = new ObjectClasses.RoboSoldier[5];
+        List<ObjectClasses.RoboSoldier> RoboSoldierList = new List<ObjectClasses.RoboSoldier>();
 
         ObjectClasses.SecurityRobot secRob = new ObjectClasses.SecurityRobot();
         List<ObjectClasses.SecurityRobot> SecRobList = new List<ObjectClasses.SecurityRobot>();
@@ -86,6 +87,9 @@ namespace City_Saver
 
         ObjectClasses.Wallturret wallT = new ObjectClasses.Wallturret();
         List<ObjectClasses.Wallturret> WallTurretList = new List<ObjectClasses.Wallturret>();
+        
+
+        /***Collision Detection***/
         
        
         bool enemyAlive = true;
@@ -99,6 +103,7 @@ namespace City_Saver
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
+
 
 
         protected override void Initialize()
@@ -115,7 +120,7 @@ namespace City_Saver
             hpPos = new Vector2(50, 50);
 
             //Enemy Position initialize
-            enemyPosition = new Vector2(700, 500);
+            enemyPosition = new Vector2(200, 200);
             base.Initialize();
         }
 
@@ -164,25 +169,19 @@ namespace City_Saver
 
             //****Enemy Sprites****//
             trooper = Content.Load<Texture2D>("Sprites//Enemy//trooper");
-            robo_soldier = "Sprites//Enemy//RoboSoldier";
+            robo_soldier = Content.Load<Texture2D>("Sprites//Enemy//RoboSoldier");
             securityrobot = Content.Load<Texture2D>("Sprites//Enemy//securityrobot");
             wallturret = Content.Load<Texture2D>("Sprites//Enemy//wallturret");
             enemy_ship = Content.Load<Texture2D>("Sprites//Enemy//enemy_ship");
             fireShooter = Content.Load<Texture2D>("Sprites//Enemy//fireShooter");
-
-            roboS.setAnimation(Content, robo_soldier, 1, enemyPosition);
-            //fills the array with robot soldier objects
-            for (int i = 0; i < RoboSoldierList.Length - 1; i++)
-            {
-                RoboSoldierList[i] = roboS;
-            }
+            
             //Array to hold the enemy content
-            //enemies[0] = trooper;
-            //enemies[1] = robo_soldier;
-            //enemies[2] = securityrobot;
-            //enemies[3] = wallturret;
-            //enemies[4] = fireShooter;
-            //enemies[5] = securityrobot;
+            enemies[0] = trooper;
+            enemies[1] = robo_soldier;
+            enemies[2] = securityrobot;
+            enemies[3] = wallturret;
+            enemies[4] = fireShooter;
+            enemies[5] = securityrobot;
 
             //ObjectClasses.FireShooter fireS = new ObjectClasses.FireShooter();
             //List<ObjectClasses.FireShooter> FireshooterList = new List<ObjectClasses.FireShooter>();
@@ -280,6 +279,9 @@ namespace City_Saver
                             player.getShot().setPosition(player.getWalkingAni().getPosition());//gives the shot the player's current position
                             player.getShot().playAnimation();
                             //  player.shotCost();
+
+                            /**Collision Detection**/
+                            //Rectangle boundRect = Animation.Animation.getBounding();
 
                         }
 
