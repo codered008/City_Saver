@@ -116,6 +116,7 @@ namespace City_Saver.ObjectClasses
         {
             attackAnimation = new Animation.Animation(c, sName, 0.30f, frNum, playerPos);
         }
+
         public void Update(GameTime gameTime)
         {
             getShot().Update(gameTime);
