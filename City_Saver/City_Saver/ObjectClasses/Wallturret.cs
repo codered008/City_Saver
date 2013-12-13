@@ -20,10 +20,10 @@ namespace City_Saver.ObjectClasses
         Vector2 enemyPosition;
         bool isEnemy = true;
 
-        public Wallturret(Vector2 position)
+        public Wallturret()//(Vector2 position)
         {
             //I'd like these to be indestructible obstacles.  Something the player simply has to get around.
-            this.enemyPosition = position;
+            //this.enemyPosition = position;
         }
 
         public void Update(GameTime gameTime)

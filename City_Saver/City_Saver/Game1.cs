@@ -72,6 +72,20 @@ namespace City_Saver
         Texture2D fireShooter;
         Texture2D[] enemies = new Texture2D[6];
 
+        ObjectClasses.FireShooter fireS = new ObjectClasses.FireShooter();
+        List<ObjectClasses.FireShooter> FireshooterList = new List<ObjectClasses.FireShooter>();
+
+        ObjectClasses.RoboSoldier roboS = new ObjectClasses.RoboSoldier();
+        List<ObjectClasses.RoboSoldier> RoboSoldierList = new List<ObjectClasses.RoboSoldier>();
+
+        ObjectClasses.SecurityRobot secRob = new ObjectClasses.SecurityRobot();
+        List<ObjectClasses.SecurityRobot> SecRobList = new List<ObjectClasses.SecurityRobot>();
+
+        ObjectClasses.Trooper trooperS = new ObjectClasses.Trooper();
+        List<ObjectClasses.Trooper> TrooperList = new List<ObjectClasses.Trooper>();
+
+        ObjectClasses.Wallturret wallT = new ObjectClasses.Wallturret();
+        List<ObjectClasses.Wallturret> WallTurretList = new List<ObjectClasses.Wallturret>();
         
        
         bool enemyAlive = true;
@@ -164,20 +178,20 @@ namespace City_Saver
             enemies[4] = fireShooter;
             enemies[5] = securityrobot;
 
-            ObjectClasses.FireShooter fireS = new ObjectClasses.FireShooter();
-            List<ObjectClasses.FireShooter> FireshooterList = new List<ObjectClasses.FireShooter>();
+            //ObjectClasses.FireShooter fireS = new ObjectClasses.FireShooter();
+            //List<ObjectClasses.FireShooter> FireshooterList = new List<ObjectClasses.FireShooter>();
 
-            ObjectClasses.RoboSoldier roboS = new ObjectClasses.RoboSoldier();
-            List<ObjectClasses.RoboSoldier> RoboSoldierList = new List<ObjectClasses.RoboSoldier>();
+            //ObjectClasses.RoboSoldier roboS = new ObjectClasses.RoboSoldier();
+            //List<ObjectClasses.RoboSoldier> RoboSoldierList = new List<ObjectClasses.RoboSoldier>();
 
-            ObjectClasses.SecurityRobot secRob = new ObjectClasses.SecurityRobot();
-            List<ObjectClasses.SecurityRobot> SecRobList = new List<ObjectClasses.SecurityRobot>();
+            //ObjectClasses.SecurityRobot secRob = new ObjectClasses.SecurityRobot();
+            //List<ObjectClasses.SecurityRobot> SecRobList = new List<ObjectClasses.SecurityRobot>();
 
-            ObjectClasses.Trooper trooperS = new ObjectClasses.Trooper();
-            List<ObjectClasses.Trooper> TrooperList = new List<ObjectClasses.Trooper>();
+            //ObjectClasses.Trooper trooperS = new ObjectClasses.Trooper();
+            //List<ObjectClasses.Trooper> TrooperList = new List<ObjectClasses.Trooper>();
 
-            ObjectClasses.Wallturret wallT = new ObjectClasses.Wallturret();
-            List<ObjectClasses.Wallturret> WallTurretList = new List<ObjectClasses.Wallturret>();
+            //ObjectClasses.Wallturret wallT = new ObjectClasses.Wallturret();
+            //List<ObjectClasses.Wallturret> WallTurretList = new List<ObjectClasses.Wallturret>();
         }
 
 
@@ -355,7 +369,8 @@ namespace City_Saver
             //***********Enemy generation****///
             if (newRoom == 0)
             {
-                enemyAlive = ;
+                FireshooterList.Add(fireS);
+                //enemyAlive == FireshooterList.ElementAt<0>.fireS.
                 if (enemyAlive==true)
                 {
                     spriteBatch.Draw(enemies[0], enemyPosition, Color.White);

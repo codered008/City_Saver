@@ -42,7 +42,7 @@ namespace City_Saver.ObjectClasses
             fireShooterAni = new Animation.Animation(content, assetName, 0.3f, frameNumber, position);
         }
 
-        public void createBullet
+        //public void createBullet
          
         public void Update(GameTime gameTime)
         {

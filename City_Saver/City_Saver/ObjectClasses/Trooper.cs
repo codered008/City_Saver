@@ -21,11 +21,11 @@ namespace City_Saver.ObjectClasses
         bool isEnemy = true; //registers the object as an enemy to the player
         bool isAlive = true;
 
-        public Trooper(Vector2 position)
+        public Trooper()//(Vector2 position)
         {
             Health = 40;
             Magic = 20;
-            this.enemyPosition = position;
+            //this.enemyPosition = position;
         }
 
         public void hpDamage(int damage)
@@ -45,7 +45,7 @@ namespace City_Saver.ObjectClasses
             {
                 //Shoot a bullet
                 //Put code here
-                enemyPosition.X -= 0.5f * currentTime;      //Need to test this
+                //enemyPosition.X -= 0.5f * currentTime;      //Need to test this
                 currentTime -= timeDuration;
             }
         }
