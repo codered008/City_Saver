@@ -74,8 +74,7 @@ namespace City_Saver.ObjectClasses
 
         public void Update(GameTime gameTime)
         {
-            //play animation here?
-                //NO. Move into player class
+
             //When the player fires a TK shot, the attack moves to the right horizonatally only
             if (shotAnimation)
             {

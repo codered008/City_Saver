@@ -247,6 +247,7 @@ namespace City_Saver
                         if ((player.getShot().getPosition().X > graphics.GraphicsDevice.Viewport.Width)) //player.getShot().getAnimation().getBounding().Intersects()//hits an enemy)
                         {
                             player.getShot().endAnimation();
+                            
                         }
 
                         //Activates the TK Shield
