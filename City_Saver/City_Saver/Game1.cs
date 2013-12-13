@@ -346,7 +346,7 @@ namespace City_Saver
 
             myBackGround.Update(elapsed * 100);
             player.Update(gameTime);
-
+            
 
             base.Update(gameTime);
         }
