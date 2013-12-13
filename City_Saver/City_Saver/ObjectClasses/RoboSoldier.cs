@@ -48,6 +48,7 @@ namespace City_Saver.ObjectClasses
 
         public void setAnimation(ContentManager c, String asset, int frameNum, Vector2 position)
         {
+            setPosition(position);
             roboSoldierAni = new Animation.Animation(c, asset, 0.3f, 1, position);
         }
 
@@ -62,13 +63,14 @@ namespace City_Saver.ObjectClasses
             {
                 isAlive = false;
             }
-
+            roboSoldierAni.playAnim(gameTime);
             //Enemy should move towards the left
             currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (currentTime >= timeDuration)
             {
                 enemyPosition.X -= 0.5f * currentTime;      //Need to test this
                 roboSoldierAni.setPosition(enemyPosition);
+                
                 currentTime -= timeDuration;
             }
            
