@@ -339,10 +339,12 @@ namespace City_Saver
             //***********Enemy generation****///
             if (newRoom == 0)
             {
-                if (enemyAlive == true)
+                enemyAlive = ObjectClasses.Trooper.getAlive;
+                if (ObjectClasses.Trooper.getAlive)
                 {
                     spriteBatch.Draw(enemies[0], enemyPosition, Color.White);
                 }
+
             }
 
             if (newRoom == 1)

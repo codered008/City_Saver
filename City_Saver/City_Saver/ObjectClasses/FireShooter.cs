@@ -18,6 +18,7 @@ namespace City_Saver.ObjectClasses
         float currentTime = 0;
         float timeDuration = 1f;
         bool isEnemy = true; //registers the object as an enemy to the player
+        bool isAlive = true;
         //Firebullet object here
 
         public FireShooter()
@@ -46,6 +47,12 @@ namespace City_Saver.ObjectClasses
         public void Update(GameTime gameTime)
         {
             //Has the monster shoot a bullet
+
+            if (Health <= 0)
+            {
+                isAlive = false;
+            }
+
             currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (currentTime >= timeDuration)
             {
@@ -53,6 +60,8 @@ namespace City_Saver.ObjectClasses
                 //Put code here
                 currentTime -= timeDuration;
             }
+
+
         }
     }
 }

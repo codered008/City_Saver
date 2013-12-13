@@ -19,6 +19,7 @@ namespace City_Saver.ObjectClasses
         float timeDuration = 1f;
         Vector2 enemyPosition;
         bool isEnemy = true; //registers the object as an enemy to the player
+        bool isAlive = true;
 
         public Trooper(Vector2 position)
         {
@@ -34,6 +35,10 @@ namespace City_Saver.ObjectClasses
 
         public void Update(GameTime gameTime)
         {
+            if (Health <= 0)
+            {
+                setAlive(false);
+            }
             //Has the monster shoot a bullet
             currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (currentTime >= timeDuration)
@@ -43,6 +48,16 @@ namespace City_Saver.ObjectClasses
                 enemyPosition.X -= 0.5f * currentTime;      //Need to test this
                 currentTime -= timeDuration;
             }
+        }
+
+        public void setAlive(bool alive)
+        {
+            this.isAlive = alive;
+        }
+
+        public bool getAlive()
+        {
+            return isAlive;
         }
     }
 }

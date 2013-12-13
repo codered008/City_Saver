@@ -19,6 +19,7 @@ namespace City_Saver.ObjectClasses
         float timeDuration = 1f;
         Vector2 enemyPosition;
         bool isEnemy = true; //registers the object as an enemy to the player
+        bool isAlive = true;
 
 
         public RoboSoldier(Vector2 position)
@@ -36,6 +37,11 @@ namespace City_Saver.ObjectClasses
 
         public void Update(GameTime gameTime)
         {
+            if (Health <= 0)
+            {
+                isAlive = false;
+            }
+
             //Enemy should move towards the left
             currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             enemyPosition.X -= 0.5f * currentTime;      //Need to test this
