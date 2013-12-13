@@ -22,7 +22,7 @@ namespace City_Saver
 
         //Variables used for setting up the character sprite
         //Texture2D TK_shot_texture;
-        Texture2D testSprite;
+        //Texture2D testSprite;
         Vector2 spriteOrigin;
 
         //The tools to create the string representation of the HP & MP
