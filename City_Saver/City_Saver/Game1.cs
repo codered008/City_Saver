@@ -346,6 +346,11 @@ namespace City_Saver
         private void DrawScenery()
         {
             Rectangle screenRect = new Rectangle(0, 0, screenwidth, screenheight);
+            //Player got a game over
+            if (gameOver)
+            {
+                spriteBatch.Draw(gameOverScreen, screenRect, Color.White);
+            }
 
             switch (newRoom)
             {
@@ -375,11 +380,7 @@ namespace City_Saver
             {
                 spriteBatch.Draw(pausedMenu, screenRect, Color.White);
             }
-            //Player got a game over
-            if (gameOver)
-            {
-                spriteBatch.Draw(gameOverScreen, screenRect, Color.White);
-            }
+            
 
         }
 
