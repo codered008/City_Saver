@@ -29,7 +29,10 @@ namespace City_Saver.ObjectClasses
             //this.enemyPosition = position;
         }
 
-
+        public bool robotIsAlive()
+        {
+            return isAlive;
+        }
         //The enemy takes damage
         public void hpDamage(int damage)
         {
@@ -63,17 +66,20 @@ namespace City_Saver.ObjectClasses
             {
                 isAlive = false;
             }
-            roboSoldierAni.playAnim(gameTime);
-            //Enemy should move towards the left
-            currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (currentTime >= timeDuration)
+            else
             {
-                enemyPosition.X -= 0.5f * currentTime;      //Need to test this
-                roboSoldierAni.setPosition(enemyPosition);
+                roboSoldierAni.playAnim(gameTime);
                 
-                currentTime -= timeDuration;
+
+                //Enemy should move towards the left
+                currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (currentTime >= timeDuration)
+                {
+                    enemyPosition.X -= 0.5f * currentTime;      //Need to test this
+                    roboSoldierAni.setPosition(enemyPosition);
+                    currentTime -= timeDuration;
+                }
             }
-           
         }
     }
 }

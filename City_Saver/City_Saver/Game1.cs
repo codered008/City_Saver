@@ -54,7 +54,7 @@ namespace City_Saver
         //The Telekinesis abilities of the player
         //TK_Shield barrier = new TK_Shield();      //Implemented further down
         //TK_Shot shot = new TK_Shot();             //Implemented further down
-        Vector2 playerPosition = new Vector2(400, 500);     //Give player a starting position; can be changed easily
+        Vector2 playerPosition = new Vector2(500, 500);     //Give player a starting position; can be changed easily
         Vector2 enemyPosition;
         float latMovementSpeed = 2.5f;             //Multiplication factor for movement speed
 
@@ -71,7 +71,7 @@ namespace City_Saver
         Texture2D wallturret;
         Texture2D fireShooter;
         Texture2D[] enemies = new Texture2D[6];
-
+        int rsCounter = 0;//counter for number of robot soldiers on screen
         ObjectClasses.FireShooter fireS = new ObjectClasses.FireShooter();
         List<ObjectClasses.FireShooter> FireshooterList = new List<ObjectClasses.FireShooter>();
 
@@ -172,7 +172,7 @@ namespace City_Saver
 
             roboS.setAnimation(Content, robo_soldier, 1, enemyPosition);
             //fills the array with robot soldier objects
-            for (int i = 0; i < RoboSoldierList.Length - 1; i++)
+            for (int i = 0; i < RoboSoldierList.Length; i++)
             {
                 RoboSoldierList[i] = roboS;
             }
@@ -320,6 +320,10 @@ namespace City_Saver
                     }
 
                     player.getWalkingAni().playAnim(gameTime);
+                    for (int j = 0; j < RoboSoldierList.Length; j++ )
+                    {
+                        RoboSoldierList[j].Update(gameTime);
+                    }
                 }
                 
             }
@@ -375,30 +379,58 @@ namespace City_Saver
             //***********Enemy generation****///
             if (newRoom == 0)
             {
-                FireshooterList.Add(fireS);
-                //enemyAlive == FireshooterList.ElementAt<0>.fireS.
-                if (enemyAlive==true)
+                //FireshooterList.Add(fireS);
+                ////enemyAlive == FireshooterList.ElementAt<0>.fireS.
+                //if (enemyAlive==true)
+                //{
+                //    spriteBatch.Draw(enemies[0], enemyPosition, Color.White);
+                //}
+                int num_fo_enemies = 0;
+                if (rsCounter < 2)
                 {
-                    spriteBatch.Draw(enemies[0], enemyPosition, Color.White);
-                }
+                    if (num_fo_enemies < 1)
+                    {
+                        RoboSoldierList[rsCounter].getAnimation().Draw(spriteBatch);
+                        num_fo_enemies++;
+                    }
+                    if (!RoboSoldierList[rsCounter].robotIsAlive())
+                    {
+                        num_fo_enemies = 0;
+                        rsCounter++;
+                    }
 
+                }
             }
 
             if (newRoom == 1)
             {
-                if (enemyAlive == true)
+                int num_fo_enemies = 0;
+                if (rsCounter < 2)
                 {
-                    spriteBatch.Draw(robo_soldier, enemyPosition, Color.White);
+                    if (num_fo_enemies < 1)
+                    {
+                        RoboSoldierList[rsCounter].getAnimation().Draw(spriteBatch);
+                        num_fo_enemies++;
+                    }
+                        if (!RoboSoldierList[rsCounter].robotIsAlive())
+                        {
+                            num_fo_enemies = 0;
+                            rsCounter++;
+                        }
+                    
                 }
+                
             }
 
-            if (newRoom == 2)
-            {
-                if (enemyAlive == true)
-                {
-                    spriteBatch.Draw(fireShooter, enemyPosition, Color.White);
-                }
-            }
+            //if (newRoom == 2)
+            //{
+            //    rsCounter = 0;
+            //    int counter = 0;
+            //    if (enemyAlive == true)
+            //    {
+            //        spriteBatch.Draw(fireShooter, enemyPosition, Color.White);
+            //    }
+            //}
 
 
             // spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
