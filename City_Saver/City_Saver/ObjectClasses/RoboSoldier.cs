@@ -18,6 +18,7 @@ namespace City_Saver.ObjectClasses
         float currentTime = 0;
         float timeDuration = 1f;
         Vector2 enemyPosition;
+        int damage = 10;
         bool isEnemy = true; //registers the object as an enemy to the player
         bool isAlive = true;
 
@@ -80,6 +81,11 @@ namespace City_Saver.ObjectClasses
                     currentTime -= timeDuration;
                 }
             }
+        }
+
+        public int getDamage()
+        {
+            return damage;
         }
     }
 }
