@@ -73,6 +73,8 @@ namespace City_Saver
         Texture2D fireShooter;
         Texture2D[] enemies = new Texture2D[6];
         int rsCounter = 0;//counter for number of robot soldiers on screen
+        bool collision = false;
+
         ObjectClasses.FireShooter fireS = new ObjectClasses.FireShooter();
         List<ObjectClasses.FireShooter> FireshooterList = new List<ObjectClasses.FireShooter>();
 
@@ -183,28 +185,8 @@ namespace City_Saver
                 RoboSoldierList[i] = roboS;
             }
 
-            ////Array to hold the enemy content
-            //enemies[0] = trooper;
-            //enemies[1] = robo_soldier;
-            //enemies[2] = securityrobot;
-            //enemies[3] = wallturret;
-            //enemies[4] = fireShooter;
-            //enemies[5] = securityrobot;
 
-            //ObjectClasses.FireShooter fireS = new ObjectClasses.FireShooter();
-            //List<ObjectClasses.FireShooter> FireshooterList = new List<ObjectClasses.FireShooter>();
-
-            //ObjectClasses.RoboSoldier roboS = new ObjectClasses.RoboSoldier();
-            //List<ObjectClasses.RoboSoldier> RoboSoldierList = new List<ObjectClasses.RoboSoldier>();
-
-            //ObjectClasses.SecurityRobot secRob = new ObjectClasses.SecurityRobot();
-            //List<ObjectClasses.SecurityRobot> SecRobList = new List<ObjectClasses.SecurityRobot>();
-
-            //ObjectClasses.Trooper trooperS = new ObjectClasses.Trooper();
-            //List<ObjectClasses.Trooper> TrooperList = new List<ObjectClasses.Trooper>();
-
-            //ObjectClasses.Wallturret wallT = new ObjectClasses.Wallturret();
-            //List<ObjectClasses.Wallturret> WallTurretList = new List<ObjectClasses.Wallturret>();
+            
         }
 
 
@@ -341,6 +323,12 @@ namespace City_Saver
 
             /**Check if enemies have been killed**/
             /**If enemy is dead, enemyAlive == false)**/
+
+            //Collision Detection
+            //loop here
+            collision = player.getWalkingAni().getBounding().Intersects(RoboSoldierList[1].getAnimation().getBounding());
+            //if collision is true
+            //player.damage(roboSoldierList[loopNumber].getDamage());
 
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -537,6 +525,11 @@ namespace City_Saver
                     EndPause();
             }
             pauseKeyDown = pauseKeyDownNow;
+        }
+
+        private bool checkForCollision(Rectangle mainChar, Rectangle other)
+        {
+            return mainChar.Intersects(other);
         }
     }
 }
