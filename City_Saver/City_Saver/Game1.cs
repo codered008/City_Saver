@@ -63,7 +63,7 @@ namespace City_Saver
 
         //*****************Textures for enemies***********//
         Texture2D enemy1;
-        Texture2D enemy2;
+        Texture2D robo_soldier;
         Texture2D enemy_ship;
         Texture2D securityrobot;
         Texture2D wallturret;
@@ -138,7 +138,7 @@ namespace City_Saver
 
             //****Enemy Sprites****//
             enemy1 = Content.Load<Texture2D>("Sprites//Enemy//enemy1");
-            enemy2 = Content.Load<Texture2D>("Sprites//Enemy//enemy2");
+            robo_soldier = Content.Load<Texture2D>("Sprites//Enemy//enemy2");
             enemy_ship = Content.Load<Texture2D>("Sprites//Enemy//enemy_ship");
             securityrobot = Content.Load<Texture2D>("Sprites//Enemy//securityrobot");
             wallturret = Content.Load<Texture2D>("Sprites//Enemy//wallturret");
