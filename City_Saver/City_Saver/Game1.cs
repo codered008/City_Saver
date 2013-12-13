@@ -71,6 +71,8 @@ namespace City_Saver
         Texture2D wallturret;
         Texture2D fireShooter;
         Texture2D[] enemies = new Texture2D[6];
+
+        
        
         bool enemyAlive = true;
 
@@ -152,7 +154,7 @@ namespace City_Saver
             securityrobot = Content.Load<Texture2D>("Sprites//Enemy//securityrobot");
             wallturret = Content.Load<Texture2D>("Sprites//Enemy//wallturret");
             enemy_ship = Content.Load<Texture2D>("Sprites//Enemy//enemy_ship");
-            fireShooter = Content.Load<Texture2D>("Sprites//Enemy//FireShooter");
+            fireShooter = Content.Load<Texture2D>("Sprites//Enemy//fireShooter");
             
             //Array to hold the enemy content
             enemies[0] = trooper;
@@ -161,7 +163,21 @@ namespace City_Saver
             enemies[3] = wallturret;
             enemies[4] = fireShooter;
             enemies[5] = securityrobot;
-            
+
+            ObjectClasses.FireShooter fireS = new ObjectClasses.FireShooter();
+            List<ObjectClasses.FireShooter> FireshooterList = new List<ObjectClasses.FireShooter>();
+
+            ObjectClasses.RoboSoldier roboS = new ObjectClasses.RoboSoldier();
+            List<ObjectClasses.RoboSoldier> RoboSoldierList = new List<ObjectClasses.RoboSoldier>();
+
+            ObjectClasses.SecurityRobot secRob = new ObjectClasses.SecurityRobot();
+            List<ObjectClasses.SecurityRobot> SecRobList = new List<ObjectClasses.SecurityRobot>();
+
+            ObjectClasses.Trooper trooperS = new ObjectClasses.Trooper();
+            List<ObjectClasses.Trooper> TrooperList = new List<ObjectClasses.Trooper>();
+
+            ObjectClasses.Wallturret wallT = new ObjectClasses.Wallturret();
+            List<ObjectClasses.Wallturret> WallTurretList = new List<ObjectClasses.Wallturret>();
         }
 
 
@@ -339,8 +355,8 @@ namespace City_Saver
             //***********Enemy generation****///
             if (newRoom == 0)
             {
-                enemyAlive = ObjectClasses.Trooper.getAlive;
-                if (ObjectClasses.Trooper.getAlive)
+                enemyAlive = ;
+                if (enemyAlive==true)
                 {
                     spriteBatch.Draw(enemies[0], enemyPosition, Color.White);
                 }
