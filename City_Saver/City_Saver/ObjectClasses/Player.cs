@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace City_Saver.ObjectClasses
 {
-    class Player: ObjectClasses.People, Animation.walkAnimation
+    class Player : ObjectClasses.People, Animation.walkAnimation
     {
         Animation.Animation walkAnimation;
         Animation.Animation attackAnimation;
@@ -23,10 +23,13 @@ namespace City_Saver.ObjectClasses
         TK_Shield barrier = new TK_Shield();      //Implemented further down
         TK_Shot shot = new TK_Shot();             //Implemented further down
 
-       // Vector2 playerPosition;     //Give player a starting position; can be changed easily
+        // Vector2 playerPosition;     //Give player a starting position; can be changed easily
         float latMovementSpeed = 0.95f;             //Multiplication factor for movement speed
         float countDuration = 1f;//every 2 seconds
-        float currentTime = 0;
+        float currentTime = 0; //the current time on game clock
+
+        int animationNumber = 0;//keeps track of which animation the player is currently on
+        int meleeDamage = 3;
         bool playATKAnimation = false;
 
 
@@ -39,6 +42,16 @@ namespace City_Saver.ObjectClasses
         public int getHealth()
         {
             return Health;
+        }
+
+        public int getMeleeDamage()
+        {
+            return meleeDamage;
+        }
+        //depletes the health from the damage taken
+        public void HPdamage(int dmg)
+        {
+            Health -= dmg;
         }
 
         public int getMagic()
@@ -100,14 +113,24 @@ namespace City_Saver.ObjectClasses
 
         public void setMeleeAnimation(ContentManager c, String sName, int frNum, Vector2 playerPos)
         {
-            attackAnimation = new Animation.Animation(c, sName, 0.30f, frNum, playerPos); 
+            attackAnimation = new Animation.Animation(c, sName, 0.30f, frNum, playerPos);
         }
         public void Update(GameTime gameTime)
         {
             getShot().Update(gameTime);
             getShield().Update(gameTime);
+            float shotTimeDuration = 2f;//the time duration for the TK shot
 
             //if the player has fired a shot, then subtract the cost of the attack from MP
+            if (shot.getAnimationStatus())
+            {
+                currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (currentTime >= shotTimeDuration)
+                {
+                    Magic -= shot.getCost();
+                    currentTime -= shotTimeDuration;
+                }
+            }
             //Decreases the MP as long as the barrier is activated
             if (barrier.getAnimationStatus())
             {
@@ -123,12 +146,12 @@ namespace City_Saver.ObjectClasses
 
         void Animation.walkAnimation.playWalkAnimation()
         {
-            
+
         }
 
-        
 
-        
+
+
 
     }
 }

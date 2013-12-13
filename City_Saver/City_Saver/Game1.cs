@@ -217,7 +217,7 @@ namespace City_Saver
 
                         player.getShot().setPosition(player.getWalkingAni().getPosition());//gives the shot the player's current position
                         player.getShot().playAnimation();
-                        player.shotCost();
+                      //  player.shotCost();
 
                     }
 
@@ -247,6 +247,7 @@ namespace City_Saver
                         player.getMeleeAnimation().setPosition(player.getWalkingAni().getPosition());
                         player.playAttackAnimation();
                         player.getMeleeAnimation().playAnim(gameTime);
+                    
                     }
                     else
                     {
