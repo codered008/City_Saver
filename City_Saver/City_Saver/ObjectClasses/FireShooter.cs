@@ -20,7 +20,8 @@ namespace City_Saver.ObjectClasses
         float timeDuration = 1f;
         bool isEnemy = true; //registers the object as an enemy to the player
         bool isAlive = true;
-        List<Bullet> fireBullets = new List<Bullet>();//the bullets the enemy will shoot
+        int counter = 0;
+        Bullet[] fireBullets = new Bullet[30];//the bullets the enemy will shoot
         Bullet bullet = new Bullet();
 
         public FireShooter()
@@ -57,7 +58,7 @@ namespace City_Saver.ObjectClasses
             //Adds an amount of bullets to the enemy's pack
             for (int i = 0; i < 30; i++)
             {
-                fireBullets.Add(bullet);
+                fireBullets[i] = bullet;
             }
         }
          
@@ -71,21 +72,37 @@ namespace City_Saver.ObjectClasses
             }
             else
             {
+                
                 foreach (Bullet b in fireBullets)
                 {
-                    b.Update(gameTime);
+                    b.Update(gameTime); //updates the bullet's actions. If it has been fired, then the bullet will be moving
                 }
                 currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (currentTime >= timeDuration)
                 {
                     //Shoot a bullet
                     //Put code here
-                    
+                    if (counter >= fireBullets.Length)
+                    {
+                        //reset the counter once it hits the max number of elements
+                        //in the array
+                        counter = 0;
+                    }
+                    //Sets the bullet to active
+                    if (!fireBullets[counter].getBulletStatus())
+                    {
+                        fireBullets[counter].setActive();
+                    }
                     currentTime -= timeDuration;
+                    counter++;//increment counter
                 }
             }
 
 
         }
+
+        //public void resetBullets(){
+        //    foreach(Bullet b in fireBullets){
+        //        //reset the bullet's status
     }
 }
