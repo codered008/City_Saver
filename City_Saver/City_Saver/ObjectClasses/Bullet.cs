@@ -56,6 +56,12 @@ namespace City_Saver.ObjectClasses
         {
             isActive = true;
         }
+
+        //removes the bullet
+        public void kill()
+        {
+            isActive = false;
+        }
         public void Update(GameTime gameTime)
         {
             //If the bullet has been shot, show it moving

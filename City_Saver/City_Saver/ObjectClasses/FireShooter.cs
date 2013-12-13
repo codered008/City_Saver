@@ -41,11 +41,8 @@ namespace City_Saver.ObjectClasses
             fireShooterAni = new Animation.Animation(content, assetName, 0.3f, frameNumber, position);
         }
 
-        /*
-         * The Methods for the Bullet
-         * Here
-         * 
-         */
+        public void createBullet
+         
         public void Update(GameTime gameTime)
         {
             //Has the monster shoot a bullet
