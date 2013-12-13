@@ -21,11 +21,11 @@ namespace City_Saver.ObjectClasses
         bool isEnemy = true; //registers the object as an enemy to the player
         bool isAlive = true;
 
-        public SecurityRobot(Vector2 position)
+        public SecurityRobot()//(Vector2 position)
         {
             Health = 20;
             Magic = 0;
-            this.enemyPosition = position;
+            //this.enemyPosition = position;
         }
 
         public void hpDamage(int damage)

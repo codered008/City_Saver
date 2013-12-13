@@ -46,6 +46,12 @@ namespace City_Saver.ObjectClasses
             fireShooterAni = new Animation.Animation(content, assetName, 0.3f, frameNumber, position);
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+        //public void createBullet
+=======
+=======
+>>>>>>> c17852dfa929e421a3fbfced4fd604f52de4a7d2
         public void setPosition(Vector2 pos)
         {
             shooterPos = pos;
@@ -61,6 +67,10 @@ namespace City_Saver.ObjectClasses
                 fireBullets[i] = bullet;
             }
         }
+<<<<<<< HEAD
+>>>>>>> c17852dfa929e421a3fbfced4fd604f52de4a7d2
+=======
+>>>>>>> c17852dfa929e421a3fbfced4fd604f52de4a7d2
          
         public void Update(GameTime gameTime)
         {

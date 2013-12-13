@@ -166,8 +166,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Enemy\FireShooter.png">
-      <Name>FireShooter</Name>
+    <Compile Include="Sprites\Enemy\fireShooter.png">
+      <Name>fireShooter</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

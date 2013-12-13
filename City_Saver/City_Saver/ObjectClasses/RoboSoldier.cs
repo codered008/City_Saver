@@ -22,12 +22,13 @@ namespace City_Saver.ObjectClasses
         bool isAlive = true;
 
 
-        public RoboSoldier(Vector2 position)
+        public RoboSoldier()//(Vector2 position)
         {
             Health = 50;
             Magic = 0;
-            this.enemyPosition = position;
+            //this.enemyPosition = position;
         }
+
 
         //The enemy takes damage
         public void hpDamage(int damage)
@@ -44,7 +45,7 @@ namespace City_Saver.ObjectClasses
 
             //Enemy should move towards the left
             currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            enemyPosition.X -= 0.5f * currentTime;      //Need to test this
+            //enemyPosition.X -= 0.5f * currentTime;      //Need to test this
            
         }
     }
