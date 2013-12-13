@@ -63,14 +63,16 @@ namespace City_Saver
         ObjectClasses.TK_Shot TKShot = new ObjectClasses.TK_Shot();
         ObjectClasses.TK_Shield TKBarrier = new ObjectClasses.TK_Shield();
 
-        //*****************Textures for enemies***********//
+        //*****************Variables for enemies***********//
         Texture2D trooper;
         Texture2D robo_soldier;
         Texture2D enemy_ship;
         Texture2D securityrobot;
         Texture2D wallturret;
         Texture2D fireShooter;
-        Texture2D[] enemies;
+        Texture2D[] enemies = new Texture2D[6];
+       
+        bool enemyAlive = true;
 
         /********Variables for pausing the game*********/
         bool gamePaused = false;
@@ -95,6 +97,9 @@ namespace City_Saver
             //loads the font for representing statuses
             romanFont = Content.Load<SpriteFont>("Times New Roman");
             hpPos = new Vector2(50, 50);
+
+            //Enemy Position initialize
+            enemyPosition = new Vector2(200, 200);
             base.Initialize();
         }
 
@@ -156,7 +161,7 @@ namespace City_Saver
             enemies[3] = wallturret;
             enemies[4] = fireShooter;
             enemies[5] = securityrobot;
-
+            
         }
 
 
@@ -283,6 +288,9 @@ namespace City_Saver
             }
             //IsMouseVisible = true;
 
+            /**Check if enemies have been killed**/
+            /**If enemy is dead, enemyAlive == false)**/
+
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             myBackGround.Update(elapsed * 100);
@@ -327,7 +335,32 @@ namespace City_Saver
                 player.getShot().getAnimation().Draw(spriteBatch);
             }
 
-            spriteBatch.Draw(trooper, new Vector2(200, 200), Color.White);
+            //***********Enemy generation****///
+            if (newRoom == 0)
+            {
+                if (enemyAlive == true)
+                {
+                    spriteBatch.Draw(enemies[0], enemyPosition, Color.White);
+                }
+            }
+
+            if (newRoom == 1)
+            {
+                if (enemyAlive == true)
+                {
+                    spriteBatch.Draw(robo_soldier, enemyPosition, Color.White);
+                }
+            }
+
+            if (newRoom == 2)
+            {
+                if (enemyAlive == true)
+                {
+                    spriteBatch.Draw(fireShooter, enemyPosition, Color.White);
+                }
+            }
+
+
             // spriteBatch.Draw(testSprite, playerPosition, null, Color.White, 0f, new Vector2(100,100), 1f, SpriteEffects.None, 1f);  // Keep the scaling factor above zero or the sprite disappears!
             
             //the animation for the TK shield
