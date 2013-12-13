@@ -18,12 +18,13 @@ namespace City_Saver
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        //Animation.Animation player_walkingSprite;
+        bool gameOver = false; //the game over validation
 
         //Variables used for setting up the character sprite
         //Texture2D TK_shot_texture;
         Texture2D testSprite;
         Vector2 spriteOrigin;
+
         //The tools to create the string representation of the HP & MP
         SpriteFont romanFont;
         Vector2 hpPos;
@@ -38,6 +39,7 @@ namespace City_Saver
         Texture2D background2;
         Texture2D background3;
         Texture2D background4;
+        Texture2D gameOverScreen;
         Texture2D pausedMenu;
 
         Vector2 backgroundOrigin;
@@ -127,6 +129,7 @@ namespace City_Saver
             myBackGround.Load(GraphicsDevice, background1);
 
             pausedMenu = Content.Load<Texture2D>("Sprites\\PauseMenu");
+            gameOverScreen = Content.Load<Texture2D>("Sprites\\GameOverScreen");
 
             screenheight = GraphicsDevice.PresentationParameters.BackBufferHeight;//graphics.GraphicsDevice.Viewport.Height;
             screenwidth = GraphicsDevice.PresentationParameters.BackBufferWidth;//graphics.GraphicsDevice.Viewport.Width;
@@ -160,103 +163,111 @@ namespace City_Saver
             currentControl = GamePad.GetState(PlayerIndex.One);
             if (currentControl.IsConnected)
             {
-                /******Checking for user pause******/
-                checkForPauseKey(currentControl);
-                //Freeze the current state of the game
-                if (!gamePaused)
+                /*****Checks for a gane over*****/
+                if (player.getHealth() == 0)
                 {
-
-                    prevControl = currentControl;
-                    /**********Handles Left and Right Horizontal movement */
-                    if (currentControl.ThumbSticks.Left.X != 0)
-                    {
-                        playerPosition.X += (currentControl.ThumbSticks.Left.X) * latMovementSpeed;
-                        //Reset the player's location when they try to go off screen
-                        if (playerPosition.X < 100)
-                        {
-                            //Sprite stays on screen
-                            playerPosition.X = 100;
-                            
-
-                        }
-                        if (playerPosition.X > graphics.GraphicsDevice.Viewport.Width)
-                        {
-                            playerPosition.X = 0;       //Reset player's X position to the left side of the screen.
-                        }
-                        //sets the player sprite's new position
-                        player.getWalkingAni().setPosition(playerPosition);
-                    }
-
-                    /**********Handles Up and Down Vertical movement */
-                    if (currentControl.ThumbSticks.Left.Y != 0)
-                    {
-                        playerPosition.Y -= (currentControl.ThumbSticks.Left.Y) * latMovementSpeed;
-                        //Keeps the sprite on the screen
-                        if (playerPosition.Y <= (graphics.GraphicsDevice.Viewport.Height / 2) + 150)
-                        {
-                            //playerPosition.Y = testSprite.Height * 2;
-                            playerPosition.Y = (graphics.GraphicsDevice.Viewport.Height / 2) + 150;//resets the Y value to zero to avoid going off screen
-                        }
-                        if (playerPosition.Y > graphics.GraphicsDevice.Viewport.Height)
-                        {
-                            playerPosition.Y = graphics.GraphicsDevice.Viewport.Height;//sets Y to the furthest height it can go
-                        }
-                        player.getWalkingAni().setPosition(playerPosition);
-
-                    }
-
-                    /*
-                     * The telekinesis ability activation by the player
-                     * LT = TK Shot
-                     * RT = TK Shield
-                     */
-                                         //*****The Telekinesis Abilities*******//
-                    //Activate the TK Shot
-                    if (currentControl.Triggers.Left == 1.0f && currentControl.Triggers.Right == 0 && (player.getMagic() >= 5))
-                    {
-
-                        player.getShot().setPosition(player.getWalkingAni().getPosition());//gives the shot the player's current position
-                        player.getShot().playAnimation();
-                      //  player.shotCost();
-
-                    }
-
-                    //Move to DRAW Method
-                    //The TK shot sprite is removed when image either hits an enemy or goes out of range
-                    if ((player.getShot().getPosition().X > graphics.GraphicsDevice.Viewport.Width)) //player.getShot().getAnimation().getBounding().Intersects()//hits an enemy)
-                    {
-                        player.getShot().endAnimation();
-                    }
-
-                    //Activates the TK Shield
-                    if (currentControl.Triggers.Right == 1.0f && currentControl.Triggers.Left == 0 && (player.getMagic() > 0))
-                    {
-                        player.getShield().setPosition(player.getWalkingAni().getPosition());
-                        player.getShield().playAnimation();
-
-                    }
-                    else
-                    {
-                        player.getShield().stopAnimation();
-                    }
-
-                    //*******The Melee Ability*******//
-                    //The player's melee attack functionality
-                    if (currentControl.IsButtonDown(Buttons.A))
-                    {
-                        player.getMeleeAnimation().setPosition(player.getWalkingAni().getPosition());
-                        player.playAttackAnimation();
-                        player.getMeleeAnimation().playAnim(gameTime);
-                    
-                    }
-                    else
-                    {
-                        player.stopAttackAnimation();
-                    }
-
+                    gameOver = true;
                 }
-                
-                    player.getWalkingAni().playAnim(gameTime); ;
+                else
+                {
+                    /******Checking for user pause******/
+                    checkForPauseKey(currentControl);
+                    //Freeze the current state of the game
+                    if (!gamePaused)
+                    {
+
+                        prevControl = currentControl;
+                        /**********Handles Left and Right Horizontal movement */
+                        if (currentControl.ThumbSticks.Left.X != 0)
+                        {
+                            playerPosition.X += (currentControl.ThumbSticks.Left.X) * latMovementSpeed;
+                            //Reset the player's location when they try to go off screen
+                            if (playerPosition.X < 100)
+                            {
+                                //Sprite stays on screen
+                                playerPosition.X = 100;
+
+
+                            }
+                            if (playerPosition.X > graphics.GraphicsDevice.Viewport.Width)
+                            {
+                                playerPosition.X = 0;       //Reset player's X position to the left side of the screen.
+                            }
+                            //sets the player sprite's new position
+                            player.getWalkingAni().setPosition(playerPosition);
+                        }
+
+                        /**********Handles Up and Down Vertical movement */
+                        if (currentControl.ThumbSticks.Left.Y != 0)
+                        {
+                            playerPosition.Y -= (currentControl.ThumbSticks.Left.Y) * latMovementSpeed;
+                            //Keeps the sprite on the screen
+                            if (playerPosition.Y <= (graphics.GraphicsDevice.Viewport.Height / 2) + 150)
+                            {
+                                //playerPosition.Y = testSprite.Height * 2;
+                                playerPosition.Y = (graphics.GraphicsDevice.Viewport.Height / 2) + 150;//resets the Y value to zero to avoid going off screen
+                            }
+                            if (playerPosition.Y > graphics.GraphicsDevice.Viewport.Height)
+                            {
+                                playerPosition.Y = graphics.GraphicsDevice.Viewport.Height;//sets Y to the furthest height it can go
+                            }
+                            player.getWalkingAni().setPosition(playerPosition);
+
+                        }
+
+                        /*
+                         * The telekinesis ability activation by the player
+                         * LT = TK Shot
+                         * RT = TK Shield
+                         */
+                        //*****The Telekinesis Abilities*******//
+                        //Activate the TK Shot
+                        if (currentControl.Triggers.Left == 1.0f && currentControl.Triggers.Right == 0 && (player.getMagic() >= 5))
+                        {
+
+                            player.getShot().setPosition(player.getWalkingAni().getPosition());//gives the shot the player's current position
+                            player.getShot().playAnimation();
+                            //  player.shotCost();
+
+                        }
+
+                        //Move to DRAW Method
+                        //The TK shot sprite is removed when image either hits an enemy or goes out of range
+                        if ((player.getShot().getPosition().X > graphics.GraphicsDevice.Viewport.Width)) //player.getShot().getAnimation().getBounding().Intersects()//hits an enemy)
+                        {
+                            player.getShot().endAnimation();
+                        }
+
+                        //Activates the TK Shield
+                        if (currentControl.Triggers.Right == 1.0f && currentControl.Triggers.Left == 0 && (player.getMagic() > 0))
+                        {
+                            player.getShield().setPosition(player.getWalkingAni().getPosition());
+                            player.getShield().playAnimation();
+
+                        }
+                        else
+                        {
+                            player.getShield().stopAnimation();
+                        }
+
+                        //*******The Melee Ability*******//
+                        //The player's melee attack functionality
+                        if (currentControl.IsButtonDown(Buttons.A))
+                        {
+                            player.getMeleeAnimation().setPosition(player.getWalkingAni().getPosition());
+                            player.playAttackAnimation();
+                            player.getMeleeAnimation().playAnim(gameTime);
+
+                        }
+                        else
+                        {
+                            player.stopAttackAnimation();
+                        }
+
+                    }
+
+                    player.getWalkingAni().playAnim(gameTime);
+                }
                 
             }
             //IsMouseVisible = true;
@@ -360,11 +371,19 @@ namespace City_Saver
                     }
             }
             //Displays the pause menu
-            if (gamePaused)
+            if (gamePaused && !gameOver)
             {
                 spriteBatch.Draw(pausedMenu, screenRect, Color.White);
             }
+            //Player got a game over
+            if (gameOver)
+            {
+                spriteBatch.Draw(gameOverScreen, screenRect, Color.White);
+            }
+
         }
+
+
         //Check for beginning of Pause
         private void BeginPause(bool playerPause)
         {

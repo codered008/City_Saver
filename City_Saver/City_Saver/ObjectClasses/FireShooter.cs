@@ -32,6 +32,15 @@ namespace City_Saver.ObjectClasses
             Health -= damage;
         }
 
+        public Animation.Animation getSpriteAnimation()
+        {
+            return fireShooterAni;
+        }
+        public void setSpriteAnimation(ContentManager content, String assetName, int frameNumber, Vector2 position)
+        {
+            fireShooterAni = new Animation.Animation(content, assetName, 0.3f, frameNumber, position);
+        }
+
         /*
          * The Methods for the Bullet
          * Here

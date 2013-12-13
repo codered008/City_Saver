@@ -31,6 +31,7 @@ namespace City_Saver.ObjectClasses
         int animationNumber = 0;//keeps track of which animation the player is currently on
         int meleeDamage = 3;
         bool playATKAnimation = false;
+        bool isAlive = true;//For game over validation
 
 
         public Player()
@@ -119,6 +120,12 @@ namespace City_Saver.ObjectClasses
         {
             getShot().Update(gameTime);
             getShield().Update(gameTime);
+
+            //Once HP hits 0, game over
+            if (Health == 0)
+            {
+                isAlive = false;
+            }
             float shotTimeDuration = 2f;//the time duration for the TK shot
 
             //if the player has fired a shot, then subtract the cost of the attack from MP
@@ -142,6 +149,10 @@ namespace City_Saver.ObjectClasses
                     currentTime -= countDuration;//use up the time
                 }
             }
+        }
+
+        public bool getLifeStatus(){
+            return isAlive;
         }
 
         void Animation.walkAnimation.playWalkAnimation()
