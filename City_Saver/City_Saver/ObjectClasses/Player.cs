@@ -28,7 +28,7 @@ namespace City_Saver.ObjectClasses
         float countDuration = 1f;//every 2 seconds
         float currentTime = 0; //the current time on game clock
 
-        int animationNumber = 0;//keeps track of which animation the player is currently on
+        int animationNumber = 0;//keeps track of which animation the player is currently on. 0 = normal, 1 = shot, 2= barrier, 3 = melee
         int meleeDamage = 3;
         bool playATKAnimation = false;
         bool isAlive = true;//For game over validation
@@ -102,6 +102,17 @@ namespace City_Saver.ObjectClasses
             return walkAnimation;
         }
 
+        public int currentAnimationNumber
+        {
+            get
+            {
+                return animationNumber;
+            }
+            set
+            {
+                animationNumber = value;
+            }
+        }
         public void setWalkingAnimation(ContentManager content, String spriteName, int frameNum, Vector2 playerPos)
         {
             walkAnimation = new Animation.Animation(content, spriteName, 0.30f, frameNum, playerPos);

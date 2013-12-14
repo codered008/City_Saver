@@ -72,7 +72,7 @@ namespace City_Saver.Animation
 
         public void setBounding()
         {
-            sourceRect = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
+            sourceRect = new Rectangle((int)position.X, (int)position.Y,frameWidth, frameHeight);
         }
 
         public Rectangle getBounding()

@@ -30,6 +30,10 @@ namespace City_Saver.ObjectClasses
             //this.enemyPosition = position;
         }
 
+        public int getHealth()
+        {
+            return Health;
+        }
         public bool robotIsAlive()
         {
             return isAlive;

@@ -250,7 +250,7 @@ namespace City_Saver
                             }
                             if (playerPosition.Y > graphics.GraphicsDevice.Viewport.Height)
                             {
-                                playerPosition.Y = graphics.GraphicsDevice.Viewport.Height;//sets Y to the furthest height it can go
+                                playerPosition.Y = graphics.GraphicsDevice.Viewport.Height+10;//sets Y to the furthest height it can go
                             }
                             player.getWalkingAni().setPosition(playerPosition);
 
@@ -268,6 +268,7 @@ namespace City_Saver
 
                             player.getShot().setPosition(player.getWalkingAni().getPosition());//gives the shot the player's current position
                             player.getShot().playAnimation();
+                            player.currentAnimationNumber = 1; //the shot was activated
                             //  player.shotCost();
 
                             /**Collision Detection**/
@@ -280,6 +281,7 @@ namespace City_Saver
                         if ((player.getShot().getPosition().X > graphics.GraphicsDevice.Viewport.Width)) //player.getShot().getAnimation().getBounding().Intersects()//hits an enemy)
                         {
                             player.getShot().endAnimation();
+                            player.currentAnimationNumber = 0;
                             
                         }
 
@@ -288,11 +290,13 @@ namespace City_Saver
                         {
                             player.getShield().setPosition(player.getWalkingAni().getPosition());
                             player.getShield().playAnimation();
+                            player.currentAnimationNumber = 2;
 
                         }
                         else
                         {
                             player.getShield().stopAnimation();
+                            player.currentAnimationNumber = 0;
                         }
 
                         //*******The Melee Ability*******//
@@ -302,20 +306,22 @@ namespace City_Saver
                             player.getMeleeAnimation().setPosition(player.getWalkingAni().getPosition());
                             player.playAttackAnimation();
                             player.getMeleeAnimation().playAnim(gameTime);
+                            player.currentAnimationNumber = 3;
 
                         }
                         else
                         {
                             player.stopAttackAnimation();
+                            player.currentAnimationNumber = 0;
                         }
-
+                        player.getWalkingAni().playAnim(gameTime);
+                        for (int j = 0; j < RoboSoldierList.Length; j++)
+                        {
+                            RoboSoldierList[j].Update(gameTime);
+                        }
                     }
 
-                    player.getWalkingAni().playAnim(gameTime);
-                    for (int j = 0; j < RoboSoldierList.Length; j++ )
-                    {
-                        RoboSoldierList[j].Update(gameTime);
-                    }
+                    
                 }
                 
             }
@@ -327,6 +333,41 @@ namespace City_Saver
             //Collision Detection
             //loop here
             collision = player.getWalkingAni().getBounding().Intersects(RoboSoldierList[1].getAnimation().getBounding());
+
+            switch (player.currentAnimationNumber)
+            {
+                case 0:
+                    if (Math.Abs(player.getWalkingAni().getPosition().X - RoboSoldierList[rsCounter].getAnimation().getPosition().X) <= 30 ||
+                        Math.Abs(player.getWalkingAni().getPosition().Y - RoboSoldierList[rsCounter].getAnimation().getPosition().Y) <= 30)
+                    {
+
+                        if (checkForCollision(player.getWalkingAni().getBounding(), RoboSoldierList[rsCounter].getAnimation().getBounding()))
+                        {
+                            //Player was damaged
+                            player.HPdamage(RoboSoldierList[rsCounter].getDamage());
+                        }
+                    }
+                    break;
+                case 1:
+                    if (checkForCollision(player.getShot().getAnimation().getBounding(), RoboSoldierList[rsCounter].getAnimation().getBounding()))
+                    {
+                        //the shot damages the robot on contact
+                    }
+                    break;
+                case 2:
+                    if(checkForCollision(player.getShield().getShieldAnimation().getBounding(), RoboSoldierList[rsCounter].getAnimation().getBounding()))
+                    {
+                        //no damage
+                    }
+                    break;
+                case 3:
+                    if (checkForCollision(player.getMeleeAnimation().getBounding(), RoboSoldierList[rsCounter].getAnimation().getBounding()))
+                    {
+                        RoboSoldierList[rsCounter].hpDamage(player.getMeleeDamage());
+                    }
+                    
+                    break;
+            }
             //if collision is true
             //player.damage(roboSoldierList[loopNumber].getDamage());
 
@@ -389,6 +430,7 @@ namespace City_Saver
                     if (num_fo_enemies < 1)
                     {
                         RoboSoldierList[rsCounter].getAnimation().Draw(spriteBatch);
+                        spriteBatch.DrawString(romanFont, "Robot HP: " + RoboSoldierList[rsCounter].getHealth(), new Vector2(500, 300), Color.Red);
                         num_fo_enemies++;
                     }
                     if (!RoboSoldierList[rsCounter].robotIsAlive())
@@ -527,7 +569,7 @@ namespace City_Saver
             pauseKeyDown = pauseKeyDownNow;
         }
 
-        private bool checkForCollision(Rectangle mainChar, Rectangle other)
+        public bool checkForCollision(Rectangle mainChar, Rectangle other)
         {
             return mainChar.Intersects(other);
         }
